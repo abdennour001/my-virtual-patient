@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="age" class="col-sm-4 col-form-label">Gender of the patient</label>
+            <label for="age" class="col-sm-4 col-form-label">Age of the patient</label>
             <div class="col-sm-8">
                 <input type="number" class="form-control" id="age" placeholder="Enter age..">
             </div>
@@ -80,7 +80,7 @@
     </div>
     <div class="row text-right">
         <div class="col-12">
-            <a type="submit" class="btn btn-primary" href="#">Next<i class="fa fa-angle-right ml-2 font-weight-bolder"></i></a>
+            <a class="btn btn-primary" href="#">Next<i class="fa fa-angle-right ml-2 font-weight-bolder"></i></a>
         </div>
     </div>
 </div>

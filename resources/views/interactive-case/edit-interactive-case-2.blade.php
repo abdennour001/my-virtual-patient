@@ -10,7 +10,7 @@
         </div>
         <div class="row text-center">
             <div class="col-12">
-                <h2 style="color: dodgerblue">Create Interactive case 2</h2>
+                <h2 style="color: dodgerblue">Edit Interactive case 2</h2>
                 <h3 style="color: dodgerblue">(Make Patient Replies)</h3>
             </div>
         </div>
