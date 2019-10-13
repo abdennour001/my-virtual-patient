@@ -69,7 +69,7 @@
             </div>
             <div class="row text-center">
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Apply</button>
+                    <button type="submit" class="btn btn-dark">Apply</button>
                 </div>
             </div>
         </form>
@@ -80,7 +80,7 @@
         </div>
         <div class="row text-right">
             <div class="col-12">
-                <a class="btn btn-primary" href="#">Next<i class="fa fa-angle-right ml-2 font-weight-bolder"></i></a>
+                <a class="btn btn-dark" href="#">Next<i class="fa fa-angle-right ml-2 font-weight-bolder"></i></a>
             </div>
         </div>
     </div>

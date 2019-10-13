@@ -12,5 +12,5 @@
 */
 
 Route::get('/', function () {
-    return view('interactive-case/edit-interactive-case-3');
+    return view('session/session');
 });
