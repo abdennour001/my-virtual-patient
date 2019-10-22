@@ -13,6 +13,11 @@
                 <img src="{{ asset('assets/patient.png')  }}" alt="Patient image goes here.." class="w-25"/>
             </div>
         </div>
+        <div class="row text-center">
+            <div class="col-12 jumbotron py-2" style="padding: 0;width: 100%">
+                <p class="m-0" style="font-size: 1rem">Hello! i am the virtual patient of this interactive case...</p>
+            </div>
+        </div>
         <div class="p-5">
             @include('layouts/interactive-case-question', ['numberOfQuestions' => 2])
         </div>
