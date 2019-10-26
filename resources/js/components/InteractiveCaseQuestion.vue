@@ -120,7 +120,7 @@
                                         </div>
                                     </div>
                                     <button v-on:click.prevent="removeRelatedQuestion(index)"
-                                            class="btn"
+                                            class="btn align-self-start"
                                             style="color: dodgerblue;"><i class="fas fa-times"></i></button>
                                 </div>
                             </div>

@@ -31,7 +31,10 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('interactive-case-form', require('./views/InteractiveCaseForm.vue').default);
+Vue.component('make-patient-character', require('./views/MakePatientCharacter').default);
 Vue.component('interactive-case-question', require('./components/InteractiveCaseQuestion').default);
+Vue.component('patient-form', require('./components/PatientForm').default);
+Vue.component('patient-live-edit', require('./components/PatientLiveEdit').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
