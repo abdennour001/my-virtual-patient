@@ -14,25 +14,7 @@
                 <h3 style="color: dodgerblue">(Make Patient Replies)</h3>
             </div>
         </div>
-        <form class="p-5">
-            <div class="form-group row">
-                <label for="numberOfQuestions" class="col-sm-4 col-form-label">Number of questions</label>
-                <div class="col-sm-8">
-                    <input type="number" class="form-control" id="numberOfQuestions" placeholder="Enter number of questions..">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="time" class="col-sm-4 col-form-label">Time</label>
-                <div class="col-sm-8">
-                    <input type="number" class="form-control" id="time" placeholder="Enter time in minutes..">
-                </div>
-            </div>
-
-            <div class="p-5">
-                @include('layouts/interactive-case-question', ['numberOfQuestions' => 2])
-            </div>
-
-        </form>
+        <interactive-case-form></interactive-case-form>
         <div class="row text-right">
             <div class="col-12">
                 <a class="btn btn-dark" href="#">Next<i class="fa fa-angle-right ml-2 font-weight-bolder"></i></a>

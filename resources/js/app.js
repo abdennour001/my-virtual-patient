@@ -8,18 +8,30 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import '@fortawesome/fontawesome-free'
+import '@fortawesome/fontawesome-free-solid'
+import '@fortawesome/free-brands-svg-icons'
+import '@fortawesome/fontawesome-free-brands'
+
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
  * components and automatically register them with their "basename".
  *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ * Eg. ./components/InteractiveCaseForm.vue -> <example-component></example-component>
  */
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('interactive-case-form', require('./views/InteractiveCaseForm.vue').default);
+Vue.component('interactive-case-question', require('./components/InteractiveCaseQuestion').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
