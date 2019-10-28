@@ -30,6 +30,8 @@
         "@fortawesome/fontawesome-svg-core": "^1.2.25",
         "@fortawesome/free-brands-svg-icons": "^5.11.2",
         "@fortawesome/vue-fontawesome": "^0.1.7",
-        "font-awesome": "^4.7.0"
+        "font-awesome": "^4.7.0",
+        "vue-axios": "^2.1.5",
+        "vue-cookies": "^1.5.13"
     }
 }

@@ -33,8 +33,16 @@
         },
         data() {
             return {
-                numberOfQuestions: 1,
-                time: 30,
+                numberOfQuestions: this.$cookies.isKey('patientCookie@numberOfQuestion') ? this.$cookies.get('patientCookie@numberOfQuestion') : 1,
+                time: this.$cookies.isKey('patientCookie@time') ? this.$cookies.get('patientCookie@time') : 30,
+            }
+        },
+        watch: {
+            numberOfQuestions: function(newValue) {
+                this.$cookies.set('patientCookie@numberOfQuestion', newValue);
+            },
+            time: function (newValue) {
+                this.$cookies.set('patientCookie@time', newValue);
             }
         }
     }

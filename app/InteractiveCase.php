@@ -28,18 +28,10 @@ class InteractiveCase extends Model
     }
 
     /**
-     * Get the questions for patient associated with the interactive case.
+     * Get the answers of the patient associated with the interactive case.
      */
-    public function questionsForPatient()
+    public function answersOfPatient()
     {
-        return $this->hasMany(QuestionForPatient::class);
-    }
-
-    /**
-     * Get the questions for student associated with the interactive case.
-     */
-    public function questionsForStudent()
-    {
-        return $this->hasMany(QuestionForStudent::class);
+        return $this->hasMany(AnswerOfPatient::class);
     }
 }

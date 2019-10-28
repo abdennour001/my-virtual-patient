@@ -15,11 +15,11 @@ class CreateQuestionForPatientsTable extends Migration
     {
         Schema::create('question_for_patients', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('interactive_case_id');
+            $table->unsignedBigInteger('answer_of_patient_id');
             $table->timestamps();
             $table->text('question_body');
 
-            $table->index('interactive_case_id');
+            $table->index('answer_of_patient_id');
         });
     }
 

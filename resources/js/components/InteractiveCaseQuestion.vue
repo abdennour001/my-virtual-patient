@@ -19,7 +19,7 @@
             <div class="form-group row">
                 <label :for="'standardQuestion' + questionIndex" class="col-sm-4 col-form-label">Question</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" :id="'standardQuestion' + questionIndex" placeholder="Enter the question..">
+                    <input v-model="question" type="text" class="form-control" :id="'standardQuestion' + questionIndex" placeholder="Enter the question..">
                 </div>
             </div>
             <form v-on:submit.prevent="addNewKeyword">
@@ -113,7 +113,7 @@
                                                     v-for="keyword in relatedQuestion.keywords"
                                                     v-bind:key="keyword.id"
                                             >
-                                                <div class="d-flex align-items-center keyword-show">
+                                                <div class="d-flex align-items-center keyword-show mt-2">
                                                     {{ keyword.text }}
                                                 </div>
                                             </div>
@@ -137,21 +137,23 @@
         name: "InteractiveCaseQuestion",
         data() {
             return {
-                patientAnswer: '',
-                newKeyword: '',
-                keywords: [],
-                nextKeyword: 0,
-                newKeywordRelated: '',
-                keywordsRelated: [],
-                nextKeywordRelated: 0,
-                newRelatedQuestion: '',
-                relatedQuestions: [],
-                nextQuestion: 0,
+                componentToken: this.questionIndex,
+                patientAnswer: this.$cookies.isKey("patientCookie@patientAnswer" + this.questionIndex) ? this.$cookies.get("patientCookie@patientAnswer" + this.questionIndex) : '',
+                question: this.$cookies.isKey('patientCookie@question' + this.questionIndex) ? this.$cookies.get('patientCookie@question' + this.questionIndex) : '',
+                newKeyword: this.$cookies.isKey('patientCookie@newKeyword' + this.questionIndex) ? this.$cookies.get('patientCookie@newKeyword' + this.questionIndex) : '',
+                keywords: this.$cookies.isKey('patientCookie@keywords' + this.questionIndex) ? JSON.parse(this.$cookies.get('patientCookie@keywords' + this.questionIndex)) : [],
+                nextKeyword: this.$cookies.isKey('patientCookie@nextKeyword' + this.questionIndex) ? this.$cookies.get('patientCookie@nextKeyword' + this.questionIndex) : 0,
+                newKeywordRelated: this.$cookies.isKey('patientCookie@newKeywordRelated' + this.questionIndex) ? this.$cookies.get('patientCookie@newKeywordRelated' + this.questionIndex) : '',
+                keywordsRelated: this.$cookies.isKey('patientCookie@keywordsRelated' + this.questionIndex) ? JSON.parse(this.$cookies.get('patientCookie@keywordsRelated' + this.questionIndex)) : [],
+                nextKeywordRelated: this.$cookies.isKey('patientCookie@nextKeywordRelated' + this.questionIndex) ? this.$cookies.get('patientCookie@nextKeywordRelated' + this.questionIndex) : 0,
+                newRelatedQuestion: this.$cookies.isKey('patientCookie@newRelatedQuestion' + this.questionIndex) ? this.$cookies.get('patientCookie@newRelatedQuestion' + this.questionIndex) : '',
+                relatedQuestions: this.$cookies.isKey('patientCookie@relatedQuestions' + this.questionIndex) ? JSON.parse(this.$cookies.get('patientCookie@relatedQuestions' + this.questionIndex)) : [],
+                nextQuestion: this.$cookies.isKey('patientCookie@nextQuestion' + this.questionIndex) ? this.$cookies.get('patientCookie@nextQuestion' + this.questionIndex) : 0,
             }
         },
         props: ['questionIndex'],
         mounted() {
-
+            // this.clearCookies();
         },
         methods: {
             addNewKeyword: function () {
@@ -191,7 +193,61 @@
             },
             removeRelatedQuestion: function (index) {
                 this.relatedQuestions.splice(index, 1);
+            },
+            clearCookies() {
+                this.$cookies.remove("patientCookie@patientAnswer" + this.componentToken);
+                this.$cookies.remove("patientCookie@question" + this.componentToken);
+                this.$cookies.remove("patientCookie@newKeyword" + this.componentToken);
+                this.$cookies.remove("patientCookie@keywords" + this.componentToken);
+                this.$cookies.remove("patientCookie@nextKeyword" + this.componentToken);
+                this.$cookies.remove("patientCookie@newKeywordRelated" + this.componentToken);
+                this.$cookies.remove("patientCookie@keywordsRelated" + this.componentToken);
+                this.$cookies.remove("patientCookie@nextKeywordRelated" + this.componentToken);
+                this.$cookies.remove("patientCookie@newRelatedQuestion" + this.componentToken);
+                this.$cookies.remove("patientCookie@relatedQuestions" + this.componentToken);
+                this.$cookies.remove("patientCookie@nextQuestion" + this.componentToken);
             }
+        },
+        watch: {
+            patientAnswer: function(newValue) {
+                this.$cookies.set('patientCookie@patientAnswer' + this.componentToken, newValue);
+            },
+            question: function(newValue) {
+                this.$cookies.set('patientCookie@question' + this.componentToken, newValue);
+            },
+            newKeyword: function(newValue) {
+                this.$cookies.set('patientCookie@newKeyword' + this.componentToken, newValue);
+            },
+            keywords: {
+                handler: function(newValue, oldValue) {
+                        this.$cookies.set('patientCookie@keywords' + this.componentToken, JSON.stringify(this.keywords));
+                },
+                deep: true
+            },
+            nextKeyword: function(newValue) {
+                this.$cookies.set('patientCookie@nextKeyword' + this.componentToken, newValue);
+            },
+            newKeywordRelated: function(newValue) {
+                this.$cookies.set('patientCookie@newKeywordRelated' + this.componentToken, newValue);
+            },
+            keywordsRelated: function(newValue) {
+                this.$cookies.set('patientCookie@keywordsRelated' + this.componentToken, JSON.stringify(this.keywordsRelated));
+            },
+            nextKeywordRelated: function(newValue) {
+                this.$cookies.set('patientCookie@nextKeywordRelated' + this.componentToken, newValue);
+            },
+            newRelatedQuestion: function(newValue) {
+                this.$cookies.set('patientCookie@newRelatedQuestion' + this.componentToken, newValue);
+            },
+            relatedQuestions: function(newValue) {
+                this.$cookies.set('patientCookie@relatedQuestions' + this.componentToken, JSON.stringify(this.relatedQuestions));
+            },
+            nextQuestion: function(newValue) {
+                this.$cookies.set('patientCookie@nextQuestion' + this.componentToken, newValue);
+            }
+        },
+        destroyed() {
+            this.clearCookies();
         }
     }
 </script>
@@ -215,12 +271,18 @@
     }
     .related-question {
         color: #000;
-        border: 2px dashed dodgerblue;
+        /*border: 2px dashed dodgerblue;*/
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
         border-radius: 5px;
         padding-left: 1rem;
         padding-bottom: .5rem;
         margin-top: .4rem;
         margin-bottom: .4rem;
+        transition: 0.5s ease;
+    }
+    .related-question:hover {
+        cursor: pointer;
+        box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.3);
     }
     .btn-add {
         color: dodgerblue;

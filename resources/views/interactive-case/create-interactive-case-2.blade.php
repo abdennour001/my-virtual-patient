@@ -5,7 +5,7 @@
     <div class="container w-75 p-5">
         <div class="row text-left">
             <div class="col-12">
-                <a type="submit" class="btn btn-dark" href="#"><i class="fa fa-angle-left mr-2 font-weight-bolder"></i>Back</a>
+                <a type="submit" class="btn btn-dark" href="{{ url('/create-interactive-case-1') }}"><i class="fa fa-angle-left mr-2 font-weight-bolder"></i>Back</a>
             </div>
         </div>
         <div class="row text-center">
@@ -15,10 +15,9 @@
             </div>
         </div>
         <interactive-case-form></interactive-case-form>
-        <div class="row text-right">
-            <div class="col-12">
-                <a class="btn btn-dark" href="#">Next<i class="fa fa-angle-right ml-2 font-weight-bolder"></i></a>
-            </div>
+        <div class="d-flex align-items-center justify-content-end">
+            <refresh-button  class="mr-auto"></refresh-button>
+            <finish-button></finish-button>
         </div>
     </div>
 

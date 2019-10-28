@@ -15,12 +15,12 @@ class CreateAnswerOfPatientsTable extends Migration
     {
         Schema::create('answer_of_patients', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('question_for_patient_id');
+            $table->unsignedBigInteger('interactive_case_id');
             $table->timestamps();
             $table->text('answer_body');
             $table->string('voice_record');
 
-            $table->index('question_for_patient_id');
+            $table->index('interactive_case_id');
         });
     }
 

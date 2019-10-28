@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,56 +14,30 @@
 |
 */
 
-// create interactive case routes
-Route::get('/create-interactive-case-1', function () {
-    return view('interactive-case/create-interactive-case-1');
-});
-
-Route::get('/create-interactive-case-2', function () {
-    return view('interactive-case/create-interactive-case-2');
-});
-
-Route::get('/create-interactive-case-3', function () {
-    return view('interactive-case/create-interactive-case-3');
-});
-
-// delete interactive case routes
-Route::get('/delete-interactive-case', function () {
-    return view('interactive-case/delete-interactive-case');
-});
-
-// edit interactive case
-Route::get('/edit-interactive-case-1', function () {
-    return view('interactive-case/edit-interactive-case-1');
-});
-
-Route::get('/edit-interactive-case-2', function () {
-    return view('interactive-case/edit-interactive-case-2');
-});
-
-Route::get('/edit-interactive-case-3', function () {
-    return view('interactive-case/edit-interactive-case-3');
-});
-
 // interactive case
-Route::get('/interactive-case', function () {
-    return view('interactive-case/interactive-case');
-});
+Route::get('/interactive-case', 'InteractiveCaseController@index');
 
 // my interactive cases
-Route::get('/my-interactive-cases', function () {
-    return view('interactive-case/my-interactive-cases');
-});
+Route::get('/my-interactive-cases', 'InteractiveCaseController@indexAll');
+
+// create interactive case routes
+Route::get('/create-interactive-case-1', 'InteractiveCaseController@indexCreateInteractiveCase1');
+Route::get('/create-interactive-case-2', 'InteractiveCaseController@indexCreateInteractiveCase2');
+
+// delete interactive case routes
+Route::get('/delete-interactive-case', 'InteractiveCaseController@indexDeleteInteractiveCase');
+
+// edit interactive case
+Route::get('/edit-interactive-case-1', 'InteractiveCaseController@indexEditInteractiveCase1');
+Route::get('/edit-interactive-case-2', 'InteractiveCaseController@indexEditInteractiveCase2');
 
 // session route
-Route::get('/session', function () {
-    return view('session/session');
-});
+Route::get('/session', 'SessionController@index');
 
-Route::get('/live-sessions', function () {
-    return view('session/live-sessions');
-});
+Route::get('/live-sessions', 'SessionController@indexLiveSessions');
 
-Route::get('/start-session', function () {
-    return view('session/start-session');
-});
+Route::get('/start-session', 'SessionController@indexStartSession');
+
+// create virtual patient RESTful API
+Route::post('/create-interactive-case/add', 'InteractiveCaseController@store');
+

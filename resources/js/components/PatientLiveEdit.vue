@@ -11,37 +11,44 @@
                             <div class="MultiCarousel-inner">
                                 <div class="item">
                                     <div class="pad15">
-                                        <p>Injury 1</p>
+                                        <img src="assets/broken-arm.svg" alt="" class="w-75">
+                                        <p class="m-0">Broken arm</p>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="pad15">
-                                        <p>Injury 2</p>
+                                        <img src="assets/broken-arm.svg" alt="" class="w-75">
+                                        <p class="m-0">Broken arm</p>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="pad15">
-                                        <p>Injury 3</p>
+                                        <img src="assets/broken-arm.svg" alt="" class="w-75">
+                                        <p class="m-0">Broken arm</p>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="pad15">
-                                        <p>Injury 4</p>
+                                        <img src="assets/broken-arm.svg" alt="" class="w-75">
+                                        <p class="m-0">Broken arm</p>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="pad15">
-                                        <p>Injury 5</p>
+                                        <img src="assets/broken-arm.svg" alt="" class="w-75">
+                                        <p class="m-0">Broken arm</p>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="pad15">
-                                        <p>Injury 6</p>
+                                        <img src="assets/broken-arm.svg" alt="" class="w-75">
+                                        <p class="m-0">Broken arm</p>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="pad15">
-                                        <p>Injury 7</p>
+                                        <img src="assets/broken-arm.svg" alt="" class="w-75">
+                                        <p class="m-0">Broken arm</p>
                                     </div>
                                 </div>
                             </div>
@@ -192,8 +199,10 @@
         text-align: center;
         padding:10px;
         margin:10px;
+        border-radius: 20px;
         background:#f1f1f1;
         color:#666;
+        cursor: grab;
     }
     .MultiCarousel .leftLst, .MultiCarousel .rightLst {
         position:absolute;

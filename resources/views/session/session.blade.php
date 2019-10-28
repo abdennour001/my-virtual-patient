@@ -9,9 +9,9 @@
             </div>
         </div>
         <div class="p-5">
-            <div class="d-flex flex-row justify-content-center">
-                <span class="mr-auto align-self-center" style="font-size: 1.2rem"><i class="fa fa-clock-o mr-2"></i>20:00</span>
-                <a class="btn btn-danger" href="#">End</a>
+            <div class="d-flex flex-row justify-content-center" style="font-size: 1.2rem">
+                <span class="mr-auto align-self-center"><i class="fas fa-clock mr-2"></i>20:00</span>
+                <a class="btn btn-danger" href="#"><i class="fas fa-times mr-2"></i>End</a>
             </div>
             <div class="d-flex justify-content-center my-4">
                 <img src="{{ asset('assets/patient.png')  }}" alt="Patient image goes here.." class="w-25"/>

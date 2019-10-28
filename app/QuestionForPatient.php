@@ -11,18 +11,10 @@ class QuestionForPatient extends Model
     protected $fillable=['question_body'];
 
     /**
-     * Get the interactive case associated with the question for patient.
-     */
-    public function interactiveCase()
-    {
-        return $this->belongsTo('App\InteractiveCase', 'interactive_case_id');
-    }
-
-    /**
-     * Get the answer associated with the question.
+     * Get the answer of this question.
      */
     public function answerOfPatient()
     {
-        return $this->hasOne(AnswerOfPatient::class);
+        return $this->belongsTo(AnswerOfPatient::class, 'answer_of_patient_id');
     }
 }

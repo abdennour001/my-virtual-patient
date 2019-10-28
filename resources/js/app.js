@@ -4,9 +4,17 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import {VueCookies} from "vue-cookies";
+
 require('./bootstrap');
 
 window.Vue = require('vue');
+
+
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios);
 
 
 import 'bootstrap'
@@ -18,6 +26,8 @@ import '@fortawesome/fontawesome-free-brands'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+
+Vue.use(require('vue-cookies'));
 
 /**
  * The following block of code may be used to automatically register your
@@ -35,6 +45,9 @@ Vue.component('make-patient-character', require('./views/MakePatientCharacter').
 Vue.component('interactive-case-question', require('./components/InteractiveCaseQuestion').default);
 Vue.component('patient-form', require('./components/PatientForm').default);
 Vue.component('patient-live-edit', require('./components/PatientLiveEdit').default);
+// Buttons
+Vue.component('refresh-button', require('./components/Button/RefreshButton').default);
+Vue.component('finish-button', require('./components/Button/FinishButton').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
