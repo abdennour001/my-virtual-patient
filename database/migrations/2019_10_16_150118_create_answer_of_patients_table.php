@@ -18,7 +18,7 @@ class CreateAnswerOfPatientsTable extends Migration
             $table->unsignedBigInteger('interactive_case_id');
             $table->timestamps();
             $table->text('answer_body');
-            $table->string('voice_record');
+            $table->string('voice_record')->nullable();
 
             $table->index('interactive_case_id');
         });

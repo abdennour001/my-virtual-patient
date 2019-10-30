@@ -14,8 +14,10 @@ class CreateOpenEndedTable extends Migration
     public function up()
     {
         Schema::create('open_ended', function (Blueprint $table) {
-            $table->unsignedBigInteger('id');
+            $table->unsignedBigInteger('id')->primary();
             $table->timestamps();
+
+            $table->index('id');
         });
     }
 

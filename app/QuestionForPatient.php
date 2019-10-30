@@ -8,7 +8,7 @@ class QuestionForPatient extends Model
 {
     protected $table='question_for_patients';
     protected $primaryKey='id';
-    protected $fillable=['question_body'];
+    protected $fillable=['question_body', 'isPrimary'];
 
     /**
      * Get the answer of this question.

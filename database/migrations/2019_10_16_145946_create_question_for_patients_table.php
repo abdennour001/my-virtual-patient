@@ -18,6 +18,7 @@ class CreateQuestionForPatientsTable extends Migration
             $table->unsignedBigInteger('answer_of_patient_id');
             $table->timestamps();
             $table->text('question_body');
+            $table->boolean('isPrimary');
 
             $table->index('answer_of_patient_id');
         });

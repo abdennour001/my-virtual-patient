@@ -16,7 +16,10 @@
     </div>
     <div class="row text-right my-4">
         <div class="col-12">
-            <a class="btn btn-dark" href="{{ url('/create-interactive-case-2') }}">Next<i class="fa fa-angle-right ml-2 font-weight-bolder"></i></a>
+            <div class="d-flex align-items-center justify-content-end">
+                <refresh-button  class="mr-auto"></refresh-button>
+                <a class="btn btn-dark" href="{{ url('/create-interactive-case-2') }}">Next<i class="fa fa-angle-right ml-2 font-weight-bolder"></i></a>
+            </div>
         </div>
     </div>
 </div>

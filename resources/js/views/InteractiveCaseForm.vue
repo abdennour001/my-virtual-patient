@@ -4,13 +4,13 @@
             <div class="form-group row">
                 <label for="numberOfQuestions" class="col-sm-4 col-form-label">Number of questions</label>
                 <div class="col-sm-8">
-                    <input v-model="numberOfQuestions" type="number" class="form-control" id="numberOfQuestions" placeholder="Enter number of questions..">
+                    <input v-model="numberOfQuestions" type="number" min="0" max="100" class="form-control" id="numberOfQuestions" placeholder="Enter number of questions..">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="time" class="col-sm-4 col-form-label">Time</label>
                 <div class="col-sm-8">
-                    <input v-model="time" type="number" class="form-control" id="time" placeholder="Enter time in minutes..">
+                    <input v-model="time" type="number" min="10" max="100" class="form-control" id="time" placeholder="Enter time in minutes..">
                 </div>
             </div>
 
@@ -29,7 +29,8 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+            this.$cookies.set('patientCookie@numberOfQuestion', this.numberOfQuestions);
+            this.$cookies.set('patientCookie@time', this.time);
         },
         data() {
             return {

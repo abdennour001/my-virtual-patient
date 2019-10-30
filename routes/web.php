@@ -38,6 +38,14 @@ Route::get('/live-sessions', 'SessionController@indexLiveSessions');
 
 Route::get('/start-session', 'SessionController@indexStartSession');
 
+// create a new session
+Route::post('/start-session/add', 'SessionController@store');
+
+// create a section
+Route::get('/create-section', 'SectionController@create');
+Route::post('/create-section/add', 'SectionController@store');
+
+
 // create virtual patient RESTful API
 Route::post('/create-interactive-case/add', 'InteractiveCaseController@store');
 

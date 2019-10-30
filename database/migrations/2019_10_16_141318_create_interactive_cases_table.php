@@ -16,6 +16,7 @@ class CreateInteractiveCasesTable extends Migration
         Schema::create('interactive_cases', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->unsignedInteger('time');
             $table->string('interactive_case_name');
         });
     }

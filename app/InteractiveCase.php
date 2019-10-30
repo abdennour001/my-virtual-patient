@@ -8,7 +8,7 @@ class InteractiveCase extends Model
 {
     protected $table='interactive_cases';
     protected $primaryKey='id';
-    protected $fillable=['interactive_case_name'];
+    protected $fillable=['interactive_case_name', 'time'];
 
 
     /**

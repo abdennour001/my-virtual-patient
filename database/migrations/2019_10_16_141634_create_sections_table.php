@@ -17,7 +17,7 @@ class CreateSectionsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->unsignedSmallInteger('section_number');
-            $table->string('path_excel_sheet');
+            $table->string('path_excel_sheet')->nullable();
         });
     }
 

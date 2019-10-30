@@ -28,6 +28,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(require('vue-cookies'));
+// set cookies expire time to 1 hour = 60 * 60 seconds
+window.$cookies.config(60 * 60);
 
 /**
  * The following block of code may be used to automatically register your

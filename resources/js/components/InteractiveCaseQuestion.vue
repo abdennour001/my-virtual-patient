@@ -153,7 +153,7 @@
         },
         props: ['questionIndex'],
         mounted() {
-            // this.clearCookies();
+
         },
         methods: {
             addNewKeyword: function () {

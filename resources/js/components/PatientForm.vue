@@ -4,7 +4,7 @@
             <div class="form-group row">
                 <label for="name" class="col-sm-4 col-form-label">Interactive case name</label>
                 <div class="col-sm-8">
-                    <input v-model="name" type="text" class="form-control" id="name" placeholder="Enter the name..">
+                    <input v-model="name" type="text" class="form-control" id="name" placeholder="Enter the name.." required>
                 </div>
             </div>
             <div class="form-group row">
@@ -19,7 +19,7 @@
             <div class="form-group row">
                 <label for="age" class="col-sm-4 col-form-label">Age of the patient</label>
                 <div class="col-sm-8">
-                    <input v-model="age" type="number" class="form-control" id="age" placeholder="Enter age.." max="150">
+                    <input v-model="age" type="number" min="1" max="150" class="form-control" id="age" placeholder="Enter age.." required>
                 </div>
             </div>
         </form>
@@ -35,6 +35,9 @@
                 gender: this.$cookies.isKey('patientCookie@gender') ? this.$cookies.get('patientCookie@gender') : 'male',
                 age: this.$cookies.isKey('patientCookie@age') ? this.$cookies.get('patientCookie@age') : '',
             }
+        },
+        mounted() {
+            this.$cookies.set('patientCookie@gender', this.gender);
         },
         watch: {
             name: function(newValue) {
