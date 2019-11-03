@@ -45,4 +45,12 @@ class SessionController extends Controller
         $session->save();
         return back();
     }
+
+    public function show(Request $request, $sessionID) {
+        $session = Session::findOrFail($sessionID);
+        $sessionName = $session->session_name;
+        $interactiveCaseID = $session->interactive_case_id;
+
+        return view('session/session', ['sessionID' => $sessionID, 'sessionName' => $sessionName, 'interactiveCaseID' => $interactiveCaseID]);
+    }
 }

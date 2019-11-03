@@ -47,6 +47,7 @@ Vue.component('make-patient-character', require('./views/MakePatientCharacter').
 Vue.component('interactive-case-question', require('./components/InteractiveCaseQuestion').default);
 Vue.component('patient-form', require('./components/PatientForm').default);
 Vue.component('patient-live-edit', require('./components/PatientLiveEdit').default);
+Vue.component('session', require('./components/Session').default);
 // Buttons
 Vue.component('refresh-button', require('./components/Button/RefreshButton').default);
 Vue.component('finish-button', require('./components/Button/FinishButton').default);

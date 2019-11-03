@@ -34,6 +34,9 @@ Route::get('/edit-interactive-case-2', 'InteractiveCaseController@indexEditInter
 // session route
 Route::get('/session', 'SessionController@index');
 
+Route::get('/session/{sessionID}', 'SessionController@show');
+
+
 Route::get('/live-sessions', 'SessionController@indexLiveSessions');
 
 Route::get('/start-session', 'SessionController@indexStartSession');
@@ -47,5 +50,7 @@ Route::post('/create-section/add', 'SectionController@store');
 
 
 // create virtual patient RESTful API
-Route::post('/create-interactive-case/add', 'InteractiveCaseController@store');
 
+// store an interactive case
+Route::post('/create-interactive-case/add', 'InteractiveCaseController@store');
+Route::get('interactive-case/{interactiveCaseID}', 'InteractiveCaseController@show');

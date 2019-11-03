@@ -171,4 +171,10 @@ class InteractiveCaseController extends Controller
             return $e->getMessage();
         }
     }
+
+    public function show(Request $request, $interactiveCaseID) {
+        $interactiveCase = InteractiveCase::findOrFail($interactiveCaseID);
+
+
+    }
 }
