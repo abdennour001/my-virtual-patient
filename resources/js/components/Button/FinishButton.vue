@@ -105,7 +105,7 @@
                             console.log('OK.');
                             $('#success').modal('show');
                         } else {
-                            console.error('Error:\n', response.data);
+                            console.error('Error:', response.data);
                         }
                     })
                     .catch(e => {

@@ -10,7 +10,7 @@
             <div class="form-group row">
                 <label for="time" class="col-sm-4 col-form-label">Time</label>
                 <div class="col-sm-8">
-                    <input v-model="time" type="number" min="10" max="100" class="form-control" id="time" placeholder="Enter time in minutes..">
+                    <input v-model="time" type="number" min="10" max="60" class="form-control" id="time" placeholder="Enter time in minutes..">
                 </div>
             </div>
 

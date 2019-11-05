@@ -100,8 +100,8 @@ class InteractiveCaseController extends Controller
             $virtualPatient->age = $patientAge;
 
             // link the interactive case with the virtual patient
-            $virtualPatient->interactiveCase()->associate($interactiveCase);
             $interactiveCase->save();
+            $interactiveCase->patient()->save($virtualPatient);
 
             /**
              * Work on the answers
@@ -173,8 +173,48 @@ class InteractiveCaseController extends Controller
     }
 
     public function show(Request $request, $interactiveCaseID) {
-        $interactiveCase = InteractiveCase::findOrFail($interactiveCaseID);
+        try {
+            $interactiveCase = InteractiveCase::findOrFail($interactiveCaseID);
+            $interactiveCaseName = $interactiveCase->interactive_case_name;
+            $time = $interactiveCase->time;
 
+            $virtualPatient = $interactiveCase->patient;
+            $patintGender = $virtualPatient->gender;
+            $patientAge = $virtualPatient->age;
 
+            $answersOfPatient = $interactiveCase->answersOfPatient;
+            $numberOfQuestions = count($answersOfPatient);
+            $questions = array();
+            for ($i = 0; $i < $numberOfQuestions; $i++) {
+                $questions[$i]['patientAnswer'] = $answersOfPatient[$i]->answer_body;
+                $questionsForPatient = $answersOfPatient[$i]->questionsForPatient;
+                $n = count($questionsForPatient);
+                $relatedQuestions = [];
+                $k = 0;
+                for ($j=0; $j<$n; $j++) {
+                    if ($questionsForPatient[$j]->isPrimary) { // primary question
+                        $questions[$i]['standardQuestion']['question_body'] = $questionsForPatient[$j]->question_body;
+                        $id = $questionsForPatient[$j]->id;
+                        $openEndedVersion = OpenEnded::findOrFail($id);
+                        $questions[$i]['standardQuestion']['keywords'] = $openEndedVersion->keywords;
+                    } else { // related questions
+                        $questions[$i]['relatedQuestions'][$k]['question_body'] = $questionsForPatient[$j]->question_body;
+                        $id = $questionsForPatient[$j]->id;
+                        $openEndedVersion = OpenEnded::findOrFail($id);
+                        $questions[$i]['relatedQuestions'][$k]['keywords'] = $openEndedVersion->keywords;
+                        $k++;
+                    }
+                }
+            }
+
+            return json_encode(['interactiveCaseName' => $interactiveCaseName,
+                                'patientGender' => $patintGender,
+                                'patientAge' => $patientAge,
+                                'numberOfQuestions' => $numberOfQuestions,
+                                'time' => $time,
+                                'questions' => json_encode($questions)]);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }

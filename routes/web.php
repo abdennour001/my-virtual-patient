@@ -53,4 +53,4 @@ Route::post('/create-section/add', 'SectionController@store');
 
 // store an interactive case
 Route::post('/create-interactive-case/add', 'InteractiveCaseController@store');
-Route::get('interactive-case/{interactiveCaseID}', 'InteractiveCaseController@show');
+Route::get('/interactive-case/{interactiveCaseID}', 'InteractiveCaseController@show');

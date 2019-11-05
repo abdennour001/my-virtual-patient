@@ -4,9 +4,6 @@
             <div class="col-12">
                 <patient-form></patient-form>
             </div>
-            <div class="col-12">
-                <patient-live-edit></patient-live-edit>
-            </div>
         </div>
     </div>
 </template>
