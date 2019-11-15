@@ -55,6 +55,7 @@ class InteractiveCaseController extends Controller
             $interactiveCaseName = $request['interactiveCaseName'];
             $patientGender = $request['patientGender'];
             $patientAge = $request['patientAge'];
+            $virtualPatientPath = $request['patientCharacterPath'];
             $numberOfQuestions = $request['numberOfQuestions'];
             $time = $request['time'];
 
@@ -98,6 +99,7 @@ class InteractiveCaseController extends Controller
             $virtualPatient = new Patient();
             $virtualPatient->gender = $patientGender;
             $virtualPatient->age = $patientAge;
+            $virtualPatient->virtual_character = $virtualPatientPath;
 
             // link the interactive case with the virtual patient
             $interactiveCase->save();
@@ -181,6 +183,7 @@ class InteractiveCaseController extends Controller
             $virtualPatient = $interactiveCase->patient;
             $patintGender = $virtualPatient->gender;
             $patientAge = $virtualPatient->age;
+            $virtualPatientPath = $virtualPatient->virtual_character;
 
             $answersOfPatient = $interactiveCase->answersOfPatient;
             $numberOfQuestions = count($answersOfPatient);
@@ -210,6 +213,7 @@ class InteractiveCaseController extends Controller
             return json_encode(['interactiveCaseName' => $interactiveCaseName,
                                 'patientGender' => $patintGender,
                                 'patientAge' => $patientAge,
+                                'patientCharacterPath' => $virtualPatientPath,
                                 'numberOfQuestions' => $numberOfQuestions,
                                 'time' => $time,
                                 'questions' => json_encode($questions)]);

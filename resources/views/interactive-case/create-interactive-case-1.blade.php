@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container" style="overflow: hidden">
     <div class="row text-center p-5">
         <div class="col-12">
             <h2 style="color: dodgerblue">Create Interactive case 1</h2>

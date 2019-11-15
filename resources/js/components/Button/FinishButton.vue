@@ -52,7 +52,6 @@
     // Init plugin
     Vue.use(Loading);
 
-
     export default {
         name: "FinishButton",
         data() {
@@ -71,6 +70,7 @@
                 data.append('interactiveCaseName', this.$cookies.get('patientCookie@name'));
                 data.append('patientGender', this.$cookies.get('patientCookie@gender'));
                 data.append('patientAge', this.$cookies.get('patientCookie@age'));
+                data.append('patientCharacterPath', this.$cookies.get('patientCookie@virtualCharacter'));
                 /* From InteractiveCaseForm.vue */
                 data.append('numberOfQuestions', this.$cookies.get('patientCookie@numberOfQuestion'));
                 data.append('time', this.$cookies.get('patientCookie@time'));

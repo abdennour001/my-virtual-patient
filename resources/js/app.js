@@ -62,6 +62,6 @@ Vue.component('finish-button', require('./components/Button/FinishButton').defau
  */
 
 
-const app = new Vue({
+window.app = new Vue({
     el: '#app',
 });

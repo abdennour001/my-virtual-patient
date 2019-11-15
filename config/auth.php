@@ -1,5 +1,9 @@
 <?php
 
+use App\Admin;
+use App\Instractor;
+use App\Student;
+
 return [
 
     /*
@@ -41,6 +45,22 @@ return [
             'provider' => 'users',
         ],
 
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin',
+        ],
+
+
+        'instractor' => [
+            'driver' => 'session',
+            'provider' => 'instractor',
+        ],
+
+        'student' => [
+            'driver' => 'session',
+            'provider' => 'student',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -69,6 +89,21 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        'admin' => [
+            'driver' => 'eloquent',
+            'model' => App\Admin::class,
+        ],
+
+        'instractor' => [
+            'driver' => 'eloquent',
+            'model' => App\Instractor::class,
+        ],
+
+        'student' => [
+            'driver' => 'eloquent',
+            'model' => App\Student::class,
         ],
 
         // 'users' => [

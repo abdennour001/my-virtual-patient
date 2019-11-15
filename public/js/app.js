@@ -13659,6 +13659,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       data.append('interactiveCaseName', this.$cookies.get('patientCookie@name'));
       data.append('patientGender', this.$cookies.get('patientCookie@gender'));
       data.append('patientAge', this.$cookies.get('patientCookie@age'));
+      data.append('patientCharacterPath', this.$cookies.get('patientCookie@virtualCharacter'));
       /* From InteractiveCaseForm.vue */
 
       data.append('numberOfQuestions', this.$cookies.get('patientCookie@numberOfQuestion'));
@@ -14075,30 +14076,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_loading_overlay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-loading-overlay */ "./node_modules/vue-loading-overlay/dist/vue-loading.min.js");
+/* harmony import */ var vue_loading_overlay__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-loading-overlay/dist/vue-loading.css */ "./node_modules/vue-loading-overlay/dist/vue-loading.css");
+/* harmony import */ var vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
@@ -14177,6 +14160,17 @@ __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap
 
 __webpack_require__(/*! jquery-ui-dist/jquery-ui */ "./node_modules/jquery-ui-dist/jquery-ui.js");
 
+ // Import component
+
+ // Import stylesheet
+
+ // Init plugin
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_1___default.a);
+var mainState = {
+  dragging: -1,
+  liveInjuries: []
+};
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PatientForm",
   data: function data() {
@@ -14184,22 +14178,96 @@ __webpack_require__(/*! jquery-ui-dist/jquery-ui */ "./node_modules/jquery-ui-di
       name: this.$cookies.isKey('patientCookie@name') ? this.$cookies.get('patientCookie@name') : '',
       gender: this.$cookies.isKey('patientCookie@gender') ? this.$cookies.get('patientCookie@gender') : 'male',
       age: this.$cookies.isKey('patientCookie@age') ? this.$cookies.get('patientCookie@age') : '',
+      virtualCharacter: this.$cookies.isKey('patientCookie@virtualCharacter') ? this.$cookies.get('patientCookie@virtualCharacter') : 'assets/male/healthy.png',
+      mainState: mainState,
       injuries: [{
-        src: "",
-        title: "",
+        id: 0,
+        src: "assets/injuries/broken-arm.png",
+        title: "Broken arm",
+        filename: "broken-arm",
         gender: "",
-        age: ""
+        age: "",
+        enabled: true
       }, {
-        src: "",
-        title: "",
+        id: 1,
+        src: "assets/injuries/broken-leg.png",
+        title: "Broken leg",
+        filename: "broken-leg",
         gender: "",
-        age: ""
+        age: "",
+        enabled: true
+      }, {
+        id: 2,
+        src: "assets/injuries/broken-head.png",
+        title: "Broken head",
+        filename: "broken-head",
+        gender: "",
+        age: "",
+        enabled: true
+      }, {
+        id: 3,
+        src: "assets/injuries/fever.png",
+        title: "Fever",
+        filename: "fever",
+        gender: "",
+        age: "",
+        enabled: true
+      }, {
+        id: 4,
+        src: "assets/injuries/pale.png",
+        title: "Pale skin",
+        filename: "pale",
+        gender: "",
+        age: "",
+        enabled: true
+      }, {
+        id: 5,
+        src: "assets/injuries/pregnant.png",
+        title: "Pregnant",
+        filename: "pregnant",
+        gender: "",
+        age: "",
+        enabled: false
+      }, {
+        id: 6,
+        src: "assets/injuries/with-baby.png",
+        title: "Female with a baby",
+        filename: "with-baby",
+        gender: "",
+        age: "",
+        enabled: false
+      }, {
+        id: 7,
+        src: "assets/injuries/runny-nose.png",
+        title: "Runny nose",
+        filename: "runny-nose",
+        gender: "",
+        age: "",
+        enabled: true
+      }, {
+        id: 8,
+        src: "assets/injuries/sleepy.png",
+        title: "Sleepy",
+        filename: "sleepy",
+        gender: "",
+        age: "",
+        enabled: true
+      }, {
+        id: 9,
+        src: "assets/injuries/wheel-chair.png",
+        title: "Wheel chair",
+        filename: "wheel-chair",
+        gender: "",
+        age: "",
+        enabled: true
       }]
     };
   },
   mounted: function mounted() {
     this.updateVirtualPatient();
     this.$cookies.set('patientCookie@gender', this.gender);
+    vue__WEBPACK_IMPORTED_MODULE_0___default.a.dragging = this.dragging; //this.$cookies.set('patientCookie@virtualCharacter', this.virtualCharacter);
+
     $(document).ready(function () {
       var itemsMainDiv = '.MultiCarousel';
       var itemsDiv = '.MultiCarousel-inner';
@@ -14291,50 +14359,153 @@ __webpack_require__(/*! jquery-ui-dist/jquery-ui */ "./node_modules/jquery-ui-di
         var Parent = "#" + $(ee).parent().attr("id");
         var slide = $(Parent).attr("data-slide");
         ResCarousel(ell, Parent, slide);
-      } // drag and drop code
+      } //drag and drop code
 
 
-      $('.item').draggable({
-        containment: "#dragdrop"
+      $('.item-enabled').draggable({
+        appendTo: "#dragdrop",
+        containment: "#dragdrop",
+        opacity: 0.7,
+        helper: function helper() {
+          var clone = $(this).clone();
+          clone.css("cursor", "grab");
+          clone.css("background", "#f1f1f1");
+          clone.css("color", "#666");
+          clone.css("border-radius", "20px");
+          clone.css("padding", "10px");
+          clone.css("margin", "10px");
+          return clone;
+        },
+        revert: true,
+        start: function start() {
+          mainState.dragging = $(this).attr("injury-id");
+        },
+        stop: function stop() {}
       });
       $("#dropzone").droppable({
         drop: function drop(event, ui) {
-          $(this).css('background', 'rgb(0,200,0)');
+          var _this = this;
+
+          //add injuries to our array
+          if (mainState.dragging !== -1) {
+            mainState.liveInjuries = [];
+            mainState.liveInjuries.push(mainState.dragging);
+            mainState.dragging = -1;
+          }
+
+          ui.helper.css('opacity', '0');
+          var c = $('#dropzone')[0];
+          var loader = vue__WEBPACK_IMPORTED_MODULE_0___default.a.$loading.show({
+            container: c,
+            opacity: 1,
+            color: 'dodgerblue'
+          });
+          var aig = false;
+          setTimeout(function () {
+            loader.hide();
+            $(_this).removeClass('dropzone-over');
+            $(_this).addClass('dropzone-out');
+          }, 500);
         },
         over: function over(event, ui) {
-          $(this).css('background', 'orange');
+          $(this).addClass('dropzone-over');
+          $(this).removeClass('dropzone-out');
         },
         out: function out(event, ui) {
-          $(this).css('background', 'cyan');
+          $(this).removeClass('dropzone-over');
+          $(this).addClass('dropzone-out');
         }
       });
     });
   },
+  computed: {
+    liveInjuries: function liveInjuries() {
+      return this.mainState.liveInjuries;
+    }
+  },
   methods: {
     updateVirtualPatient: function updateVirtualPatient() {
-      if (this.age < 4) {// a baby
+      var loader = this.$loading.show({
+        container: this.$refs.patientZone,
+        opacity: 1,
+        color: 'dodgerblue'
+      });
+      this.mainState.liveInjuries = [];
+
+      if (this.age === '') {
+        this.virtualCharacter = '';
+      } else if (this.age <= 4 && this.age >= 0) {
+        // a baby
+        this.virtualCharacter = 'assets/baby/healthy.png';
       } else if (this.age > 4 && this.age <= 17) {
         // a young
         if (this.gender === "male") {
+          this.virtualCharacter = 'assets/boy/healthy.png';
           console.log("young male");
         } else {
+          this.virtualCharacter = 'assets/girl/healthy.png';
           console.log("young female");
         }
       } else if (this.age > 17 && this.age <= 40) {
         // an adult
         if (this.gender === "male") {
+          this.virtualCharacter = 'assets/male/healthy.png';
           console.log("adult male");
         } else {
+          this.virtualCharacter = 'assets/female/healthy.png';
           console.log("adult female");
         }
       } else if (this.age > 40 && this.age <= 100) {
         // an old
         if (this.gender === "male") {
+          this.virtualCharacter = 'assets/old-male/healthy.png';
           console.log("old male");
         } else {
+          this.virtualCharacter = 'assets/old-female/healthy.png';
           console.log("old female");
         }
       }
+
+      setTimeout(function () {
+        loader.hide();
+      }, 500);
+      this.$cookies.set('patientCookie@virtualCharacter', this.virtualCharacter);
+    },
+    reset: function reset() {
+      this.updateVirtualPatient();
+    },
+    updateInjury: function updateInjury() {
+      var injury = this.injuries[this.mainState.liveInjuries[0]];
+
+      if (this.age === '') {
+        this.virtualCharacter = '';
+      } else if (this.age <= 4 && this.age >= 0) {
+        // a baby
+        this.virtualCharacter = 'assets/baby/healthy.png';
+      } else if (this.age > 4 && this.age <= 17) {
+        // a young
+        if (this.gender === "male") {
+          this.virtualCharacter = 'assets/boy/' + injury.filename + '.png';
+        } else {
+          this.virtualCharacter = 'assets/girl/' + injury.filename + '.png';
+        }
+      } else if (this.age > 17 && this.age <= 40) {
+        // an adult
+        if (this.gender === "male") {
+          this.virtualCharacter = 'assets/male/' + injury.filename + '.png';
+        } else {
+          this.virtualCharacter = 'assets/female/' + injury.filename + '.png';
+        }
+      } else if (this.age > 40 && this.age <= 100) {
+        // an old
+        if (this.gender === "male") {
+          this.virtualCharacter = 'assets/old-male/' + injury.filename + '.png';
+        } else {
+          this.virtualCharacter = 'assets/old-female/' + injury.filename + '.png';
+        }
+      }
+
+      this.$cookies.set('patientCookie@virtualCharacter', this.virtualCharacter);
     }
   },
   watch: {
@@ -14348,6 +14519,11 @@ __webpack_require__(/*! jquery-ui-dist/jquery-ui */ "./node_modules/jquery-ui-di
     age: function age(newValue) {
       this.updateVirtualPatient();
       this.$cookies.set('patientCookie@age', newValue);
+    },
+    liveInjuries: function liveInjuries(newValue) {
+      if (newValue.length !== 0) {
+        this.updateInjury();
+      }
     }
   }
 });
@@ -14428,6 +14604,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
  // Import component
 
  // Import stylesheet
@@ -14447,15 +14650,18 @@ var myRuleBased = __webpack_require__(/*! ../ScriptRuleBased */ "./resources/js/
       interactiveCaseName: '',
       patientGender: '',
       patientAge: 0,
+      patientCharacterPath: '/assets/male/healthy.png',
       numberOfQuestions: 0,
       time: 0,
       questions: {},
+      studentAnswers: [],
       startTime: '',
       endTime: '',
       index: 0,
       // index of current question
       currentQuestion: {},
-      studentAnswer: ''
+      studentAnswer: '',
+      score: 0
     };
   },
   beforeMount: function beforeMount() {
@@ -14475,6 +14681,7 @@ var myRuleBased = __webpack_require__(/*! ../ScriptRuleBased */ "./resources/js/
       _this.interactiveCaseName = response.data.interactiveCaseName;
       _this.patientGender = response.data.patientGender;
       _this.patientAge = response.data.patientAge;
+      _this.patientCharacterPath = response.data.patientCharacterPath;
       _this.numberOfQuestions = response.data.numberOfQuestions;
       _this.time = response.data.time;
       var questionsString = response.data.questions;
@@ -14514,6 +14721,7 @@ var myRuleBased = __webpack_require__(/*! ../ScriptRuleBased */ "./resources/js/
       setTimeout(function () {
         loader.hide();
       }, 500);
+      window.scroll(0, 0);
     },
     previous: function previous() {
       // show a spinner while fetching data from the server
@@ -14533,6 +14741,18 @@ var myRuleBased = __webpack_require__(/*! ../ScriptRuleBased */ "./resources/js/
       setTimeout(function () {
         loader.hide();
       }, 500);
+      window.scroll(0, 0);
+    },
+    finish: function finish() {
+      this.calculateScore();
+      window.scroll(0, 0);
+    },
+    end: function end() {
+      this.calculateScore();
+      window.scroll(0, 0);
+    },
+    calculateScore: function calculateScore() {
+      this.score = myRuleBased.getScore(this.studentAnswers, this.questions);
     }
   },
   watch: {
@@ -14553,6 +14773,10 @@ var myRuleBased = __webpack_require__(/*! ../ScriptRuleBased */ "./resources/js/
     },
     index: function index() {
       this.currentQuestion = this.questions[this.index];
+      this.studentAnswer = this.studentAnswers[this.index];
+    },
+    studentAnswer: function studentAnswer() {
+      this.studentAnswers[this.index] = this.studentAnswer;
     }
   }
 });
@@ -19188,7 +19412,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.MultiCarousel[data-v-0fc07fce] {\n    float: left;\n    overflow: hidden;\n    padding: 15px;\n    width: 100%;\n    position:relative;\n}\n.MultiCarousel .MultiCarousel-inner[data-v-0fc07fce] {\n    transition: 1s ease all;\n    float: left;\n}\n.MultiCarousel .MultiCarousel-inner .item[data-v-0fc07fce] {\n    float: left;\n}\n.MultiCarousel .MultiCarousel-inner .item > div[data-v-0fc07fce] {\n    text-align: center;\n    padding:10px;\n    margin:10px;\n    border-radius: 20px;\n    background:#f1f1f1;\n    color:#666;\n    cursor: -webkit-grab;\n    cursor: grab;\n}\n.MultiCarousel .leftLst[data-v-0fc07fce], .MultiCarousel .rightLst[data-v-0fc07fce] {\n    position:absolute;\n    width: 40px;\n    height: 40px;\n    border-radius: 50%;\n    top:calc(50% - 20px);\n}\n.btn[data-v-0fc07fce] {\n    background: dodgerblue;\n    color: white;\n}\n.MultiCarousel .leftLst[data-v-0fc07fce] {\n    left:0;\n}\n.MultiCarousel .rightLst[data-v-0fc07fce] {\n    right:0;\n}\n.MultiCarousel .leftLst.over[data-v-0fc07fce], .MultiCarousel .rightLst.over[data-v-0fc07fce] {\n    pointer-events: none;\n    background:#ccc;\n}\n\n", ""]);
+exports.push([module.i, "\n.MultiCarousel[data-v-0fc07fce] {\n    float: left;\n    padding: 15px;\n    width: 100%;\n    position:relative;\n}\n.MultiCarousel .MultiCarousel-inner[data-v-0fc07fce] {\n    transition: 1s ease all;\n    float: left;\n}\n.MultiCarousel .MultiCarousel-inner .item[data-v-0fc07fce] {\n    float: left;\n}\n.MultiCarousel .MultiCarousel-inner .item-disabled[data-v-0fc07fce] {\n    opacity: 0.5;\n}\n.MultiCarousel .MultiCarousel-inner .item > div[data-v-0fc07fce] {\n    text-align: center;\n    padding:10px;\n    margin:10px;\n    border-radius: 20px;\n    background:#f1f1f1;\n    color:#666;\n    cursor: -webkit-grab;\n    cursor: grab;\n}\n.tip[data-v-0fc07fce] {\n    text-align: center;\n    padding:10px;\n    margin:10px;\n    border-radius: 10px;\n    background:#f1f1f1;\n    color:#666;\n}\n.MultiCarousel .leftLst[data-v-0fc07fce], .MultiCarousel .rightLst[data-v-0fc07fce] {\n    position:absolute;\n    width: 40px;\n    height: 40px;\n    border-radius: 50%;\n    top:calc(50% - 20px);\n}\n.btn[data-v-0fc07fce] {\n    background: dodgerblue;\n    color: white;\n}\n.MultiCarousel .leftLst[data-v-0fc07fce] {\n    left:0;\n}\n.MultiCarousel .rightLst[data-v-0fc07fce] {\n    right:0;\n}\n.MultiCarousel .leftLst.over[data-v-0fc07fce], .MultiCarousel .rightLst.over[data-v-0fc07fce] {\n    pointer-events: none;\n    background:#ccc;\n}\n#dropzone[data-v-0fc07fce] {\n    border-radius: 10px;\n    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);\n}\n.dropzone-out[data-v-0fc07fce] {\n    border: 2px solid transparent;\n}\n.dropzone-over[data-v-0fc07fce] {\n    border-radius: 10px;\n    border: 2px dashed dodgerblue;\n}\na[data-v-0fc07fce],\na label[data-v-0fc07fce] {\n    cursor: pointer;\n}\n\n", ""]);
 
 // exports
 
@@ -71226,19 +71450,98 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "col-12 mt-5" }, [
       _c("div", { staticClass: "row text-center", attrs: { id: "dragdrop" } }, [
-        _c("div", { staticClass: "col-12", attrs: { id: "dropzone" } }, [
-          _c("img", {
-            ref: "virtualPatient",
-            staticClass: "w-25",
-            attrs: {
-              id: "virtualPatient",
-              src: "assets/patient.png",
-              alt: "Patient image goes here.."
-            }
-          })
+        _c("div", { staticClass: "col-10 offset-1 text-right mb-2" }, [
+          _c(
+            "a",
+            {
+              staticStyle: { color: "dodgerblue" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.reset($event)
+                }
+              }
+            },
+            [_vm._v("Reset "), _c("i", { staticClass: "fas fa-times" })]
+          )
         ]),
         _vm._v(" "),
-        _vm._m(1)
+        _c(
+          "div",
+          {
+            ref: "patientZone",
+            staticClass: "col-10 offset-1 dropzone-out",
+            staticStyle: { "z-index": "-999" },
+            attrs: { id: "dropzone" }
+          },
+          [
+            _c("img", {
+              ref: "virtualPatient",
+              staticClass: "w-25 m-2",
+              attrs: {
+                id: "virtualPatient",
+                src: _vm.virtualCharacter,
+                alt: "Please set an age to continue..."
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-12 mt-4" }, [
+          _c("div", { staticClass: "container" }, [
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "MultiCarousel",
+                  attrs: {
+                    "data-items": "1,3,5,6",
+                    "data-slide": "1",
+                    id: "MultiCarousel",
+                    "data-interval": "1000"
+                  }
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "MultiCarousel-inner" },
+                    _vm._l(_vm.injuries, function(injury) {
+                      return _c("div", { key: injury.id }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "item",
+                            class: injury.enabled
+                              ? "item-enabled"
+                              : "item-disabled",
+                            attrs: { "injury-id": injury.id }
+                          },
+                          [
+                            _c("div", { staticClass: "pad15" }, [
+                              _c("img", {
+                                staticClass: "w-75",
+                                attrs: { src: injury.src, alt: "" }
+                              }),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "m-0" }, [
+                                _vm._v(" " + _vm._s(injury.title) + " ")
+                              ])
+                            ])
+                          ]
+                        )
+                      ])
+                    }),
+                    0
+                  ),
+                  _vm._v(" "),
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _vm._m(2)
+                ]
+              )
+            ])
+          ])
+        ])
       ])
     ])
   ])
@@ -71249,128 +71552,37 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-sm-6 text-left" }, [
-      _c("span", { staticClass: "lead" }, [
-        _vm._v("Tip: "),
-        _c("strong", [_vm._v("Baby")]),
-        _vm._v(" (0-4), "),
-        _c("strong", [_vm._v("young")]),
-        _vm._v(" (4-17),\n                        "),
-        _c("strong", [_vm._v("adult")]),
-        _vm._v(" (17-40), "),
-        _c("strong", [_vm._v("old")]),
-        _vm._v(" (40-100)")
-      ])
+      _c(
+        "span",
+        { staticClass: "lead tip", staticStyle: { "font-size": "1rem" } },
+        [
+          _vm._v("Tip: "),
+          _c("strong", [_vm._v("Baby")]),
+          _vm._v(" (0-4), "),
+          _c("strong", [_vm._v("young")]),
+          _vm._v(" (4-17),\n                        "),
+          _c("strong", [_vm._v("adult")]),
+          _vm._v(" (17-40), "),
+          _c("strong", [_vm._v("old")]),
+          _vm._v(" (40-100)")
+        ]
+      )
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 mt-4" }, [
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "row" }, [
-          _c(
-            "div",
-            {
-              staticClass: "MultiCarousel",
-              attrs: {
-                "data-items": "1,3,5,6",
-                "data-slide": "1",
-                id: "MultiCarousel",
-                "data-interval": "1000"
-              }
-            },
-            [
-              _c("div", { staticClass: "MultiCarousel-inner" }, [
-                _c("div", { staticClass: "item" }, [
-                  _c("div", { staticClass: "pad15" }, [
-                    _c("img", {
-                      staticClass: "w-75",
-                      attrs: { src: "assets/broken-arm.svg", alt: "" }
-                    }),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "m-0" }, [_vm._v("Broken arm")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "item" }, [
-                  _c("div", { staticClass: "pad15" }, [
-                    _c("img", {
-                      staticClass: "w-75",
-                      attrs: { src: "assets/broken-arm.svg", alt: "" }
-                    }),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "m-0" }, [_vm._v("Broken arm")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "item" }, [
-                  _c("div", { staticClass: "pad15" }, [
-                    _c("img", {
-                      staticClass: "w-75",
-                      attrs: { src: "assets/broken-arm.svg", alt: "" }
-                    }),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "m-0" }, [_vm._v("Broken arm")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "item" }, [
-                  _c("div", { staticClass: "pad15" }, [
-                    _c("img", {
-                      staticClass: "w-75",
-                      attrs: { src: "assets/broken-arm.svg", alt: "" }
-                    }),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "m-0" }, [_vm._v("Broken arm")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "item" }, [
-                  _c("div", { staticClass: "pad15" }, [
-                    _c("img", {
-                      staticClass: "w-75",
-                      attrs: { src: "assets/broken-arm.svg", alt: "" }
-                    }),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "m-0" }, [_vm._v("Broken arm")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "item" }, [
-                  _c("div", { staticClass: "pad15" }, [
-                    _c("img", {
-                      staticClass: "w-75",
-                      attrs: { src: "assets/broken-arm.svg", alt: "" }
-                    }),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "m-0" }, [_vm._v("Broken arm")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "item" }, [
-                  _c("div", { staticClass: "pad15" }, [
-                    _c("img", {
-                      staticClass: "w-75",
-                      attrs: { src: "assets/broken-arm.svg", alt: "" }
-                    }),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "m-0" }, [_vm._v("Broken arm")])
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("button", { staticClass: "btn leftLst" }, [
-                _c("i", { staticClass: "fas fa-angle-left" })
-              ]),
-              _vm._v(" "),
-              _c("button", { staticClass: "btn rightLst" }, [
-                _c("i", { staticClass: "fas fa-angle-right" })
-              ])
-            ]
-          )
-        ])
-      ])
+    return _c("button", { staticClass: "btn leftLst" }, [
+      _c("i", { staticClass: "fas fa-angle-left" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn rightLst" }, [
+      _c("i", { staticClass: "fas fa-angle-right" })
     ])
   }
 ]
@@ -71479,11 +71691,32 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _vm._m(0)
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#exampleModal2",
+                href: "#"
+              },
+              on: { click: _vm.end }
+            },
+            [_c("i", { staticClass: "fas fa-times mr-2" }), _vm._v("End")]
+          )
         ]
       ),
       _vm._v(" "),
-      _vm._m(1),
+      _c("div", { staticClass: "d-flex justify-content-center my-4" }, [
+        _c("img", {
+          staticStyle: { width: "30%" },
+          attrs: {
+            src: "/" + _vm.patientCharacterPath,
+            alt: "Patient image goes here.."
+          }
+        })
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "row text-center" }, [
         _c(
@@ -71585,7 +71818,16 @@ var render = function() {
         _vm.index === _vm.numberOfQuestions - 1
           ? _c(
               "button",
-              { staticClass: "btn btn-primary", staticStyle: { width: "15%" } },
+              {
+                staticClass: "btn btn-primary",
+                staticStyle: { width: "15%" },
+                attrs: {
+                  type: "button",
+                  "data-toggle": "modal",
+                  "data-target": "#exampleModal2"
+                },
+                on: { click: _vm.finish }
+              },
               [
                 _vm._v("Finish "),
                 _vm.index === _vm.numberOfQuestions - 1
@@ -71599,7 +71841,66 @@ var render = function() {
             )
           : _vm._e()
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "exampleModal2",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("h3", [_vm._v("Your result is")]),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  {
+                    staticClass: "lead",
+                    staticStyle: { color: "dodgerblue", "font-weight": "500" }
+                  },
+                  [_vm._v(_vm._s(_vm.score) + " points")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Exit")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: { click: function($event) {} }
+                  },
+                  [_vm._v("Redo")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -71607,20 +71908,25 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "btn btn-danger", attrs: { href: "#" } }, [
-      _c("i", { staticClass: "fas fa-times mr-2" }),
-      _vm._v("End")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex justify-content-center my-4" }, [
-      _c("img", {
-        staticClass: "w-25",
-        attrs: { src: "/assets/patient.png", alt: "Patient image goes here.." }
-      })
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Result")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
     ])
   }
 ]
@@ -83971,12 +84277,12 @@ module.exports = function(module) {
 /*!*****************************************!*\
   !*** ./resources/js/ScriptRuleBased.js ***!
   \*****************************************/
-/*! exports provided: main */
+/*! exports provided: getScore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "main", function() { return main; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getScore", function() { return getScore; });
 /**
  *
  * ScriptRuleBased.js
@@ -84440,8 +84746,7 @@ function isWhQuestion(question) {
  */
 
 
-function main(studentAnswer, standardQuestion, relatedQuestion1, relatedQuestion2, standardKeywords, relatedKeywords1, relatedKeywords2) {
-  var rate = 0.0;
+function main(studentAnswer, questions) {
   var questionsRate = [];
   var slamDankRates = {
     'rule1': 0.1628,
@@ -84462,88 +84767,99 @@ function main(studentAnswer, standardQuestion, relatedQuestion1, relatedQuestion
   // every other related question.
 
   console.clear();
-  var questions = [];
-  if (standardQuestion !== '') questions.push(standardQuestion);
-  if (relatedQuestion1 !== '') questions.push(relatedQuestion1);
-  if (relatedQuestion2 !== '') questions.push(relatedQuestion2);
+  var _iteratorNormalCompletion10 = true;
+  var _didIteratorError10 = false;
+  var _iteratorError10 = undefined;
 
-  for (var _i2 = 0, _questions = questions; _i2 < _questions.length; _i2++) {
-    var question = _questions[_i2];
-    var questionRate = 0.0; // Rule #1
-    //console.log('checkWhWord : ' + checkWhWord(studentAnswer, question));
+  try {
+    for (var _iterator10 = questions[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+      var question = _step10.value;
+      var questionRate = 0.0; // Rule #1
+      //console.log('checkWhWord : ' + checkWhWord(studentAnswer, question));
 
-    if (checkWhWord(studentAnswer, question)) questionRate += slamDankRates['rule1']; // Rule #2
-    //console.log('checkBeginning : ' + checkBeginning(studentAnswer, question));
+      if (checkWhWord(studentAnswer, question)) questionRate += slamDankRates['rule1']; // Rule #2
+      //console.log('checkBeginning : ' + checkBeginning(studentAnswer, question));
 
-    if (checkBeginning(studentAnswer, question)[0]) {
-      questionRate += slamDankRates['rule2'];
-    } // Rule #3
-    //console.log('wordMatch : ' + wordMatch(studentAnswer, question));
-
-
-    var n = wordMatch(studentAnswer, question);
-
-    if (n > 0) {
-      var l = Math.min(studentAnswer.length, question.length);
-      questionRate += slamDankRates['rule3'];
-    } // Rule #4
-    //console.log('wordMatchSynonyms : ' + wordMatchSynonyms(studentAnswer, question));
+      if (checkBeginning(studentAnswer, question)[0]) {
+        questionRate += slamDankRates['rule2'];
+      } // Rule #3
+      //console.log('wordMatch : ' + wordMatch(studentAnswer, question));
 
 
-    var o = wordMatchSynonyms(studentAnswer, question);
+      var n = wordMatch(studentAnswer, question);
 
-    if (o > 0) {
-      var _l = Math.min(studentAnswer.length, question.length);
-
-      questionRate += slamDankRates['rule4'];
-    } // Rule #5
-    //console.log('checkQuestionType : ' + checkQuestionType(studentAnswer, question));
-
-
-    if (checkQuestionType(studentAnswer, question)) {
-      questionRate += slamDankRates['rule5'];
-    } // Rule #6
+      if (n > 0) {
+        var l = Math.min(studentAnswer.length, question.length);
+        questionRate += slamDankRates['rule3'];
+      } // Rule #4
+      //console.log('wordMatchSynonyms : ' + wordMatchSynonyms(studentAnswer, question));
 
 
-    if (question === standardQuestion) {
-      //console.log('specialKeysSimilarity : ' + specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), standardKeywords));
+      var o = wordMatchSynonyms(studentAnswer, question);
+
+      if (o > 0) {
+        var _l = Math.min(studentAnswer.length, question.length);
+
+        questionRate += slamDankRates['rule4'];
+      } // Rule #5
+      //console.log('checkQuestionType : ' + checkQuestionType(studentAnswer, question));
+
+
+      if (checkQuestionType(studentAnswer, question)) {
+        questionRate += slamDankRates['rule5'];
+      } // Rule #6
+
+
       if (specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), standardKeywords)) {
         questionRate += slamDankRates['rule6'];
-      }
-    } else if (question === relatedQuestion1) {
-      //console.log('specialKeysSimilarity : ' + specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), relatedKeywords1));
-      if (specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), relatedKeywords1)) {
-        questionRate += slamDankRates['rule6'];
-      }
-    } else {
-      //console.log('specialKeysSimilarity : ' + specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), relatedKeywords2));
-      if (specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), relatedKeywords2)) {
-        questionRate += slamDankRates['rule6'];
-      }
-    } // Rule #7
+      } // Rule #7
 
 
-    if (question === standardQuestion) {
-      //console.log('keywordsMatch : ' + KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), standardKeywords));
       if (KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), standardKeywords)) {
         questionRate += slamDankRates['rule7'];
       }
-    } else if (question === relatedQuestion1) {
-      //console.log('keywordsMatch : ' + KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), relatedKeywords1));
-      if (KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), relatedKeywords1)) {
-        questionRate += slamDankRates['rule7'];
+
+      questionsRate.push(questionRate);
+    }
+  } catch (err) {
+    _didIteratorError10 = true;
+    _iteratorError10 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion10 && _iterator10["return"] != null) {
+        _iterator10["return"]();
       }
-    } else {
-      //console.log('keywordsMatch : ' + KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), relatedKeywords2));
-      if (KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), relatedKeywords1)) {
-        questionRate += slamDankRates['rule7'];
+    } finally {
+      if (_didIteratorError10) {
+        throw _iteratorError10;
       }
     }
-
-    questionsRate.push(questionRate);
   }
 
   return Math.max.apply(Math, questionsRate);
+}
+/**
+ * getScore function that will calculate the score of the student answers, [score from 0 to 100]
+ *
+ * @param {Array} studentAnswers - Student Answers.
+ * @param {Array} questions - Questions.
+ * @return {number} Score of the student.
+ */
+
+
+function getScore(studentAnswers, questions) {
+  var maxScore = 100;
+  var studentScore = 0;
+  var numberOfQuestions = studentAnswers.length;
+  var partialScore = Math.floor(maxScore / numberOfQuestions);
+  var rate = 0;
+
+  for (var i = 0; i < numberOfQuestions; i++) {
+    rate = main(studentAnswers[i], questions[i]);
+    studentScore += partialScore * rate;
+  }
+
+  return studentScore;
 }
 
 /***/ }),
@@ -84626,7 +84942,7 @@ Vue.component('finish-button', __webpack_require__(/*! ./components/Button/Finis
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var app = new Vue({
+window.app = new Vue({
   el: '#app'
 });
 

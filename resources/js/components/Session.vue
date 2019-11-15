@@ -31,10 +31,10 @@
                     <i class="fas fa-info ml-4"></i>
                     <span class="ml-2">{{ interactiveCaseName }}</span>
                 </span>
-                <a class="btn btn-danger" href="#"><i class="fas fa-times mr-2"></i>End</a>
+                <button type="button" data-toggle="modal" data-target="#exampleModal2" @click="end" class="btn btn-danger" href="#"><i class="fas fa-times mr-2"></i>End</button>
             </div>
             <div class="d-flex justify-content-center my-4">
-                <img src="/assets/patient.png" alt="Patient image goes here.." class="w-25"/>
+                <img :src="'/' + patientCharacterPath" alt="Patient image goes here.." style="width: 30%;"/>
             </div>
             <div class="row text-center">
                 <div class="col-12 jumbotron py-2" style="padding: 0;width: 100%">
@@ -51,7 +51,34 @@
             <div class="d-flex flex-row justify-content-between">
                 <button style="width: 15%;" @click="previous" :disabled="index === 0" class="btn btn-dark"><i class="fa fa-angle-left mr-2 font-weight-bolder"></i>Previous</button>
                 <button style="width: 15%;" @click="next" :hidden="index >= numberOfQuestions-1" class="btn btn-dark">Next <span v-if="index < numberOfQuestions-1"><i class="fa fa-angle-right ml-2 font-weight-bolder"></i></span></button>
-                <button style="width: 15%;" v-if="index === numberOfQuestions-1" class="btn btn-primary">Finish <span v-if="index === numberOfQuestions-1"><i class="fa fa-check ml-2 font-weight-bolder"></i></span></button>
+                <button
+                        type="button"
+                        data-toggle="modal" data-target="#exampleModal2"
+                        style="width: 15%;"
+                        @click="finish"
+                        v-if="index === numberOfQuestions-1"
+                        class="btn btn-primary">Finish <span v-if="index === numberOfQuestions-1"><i class="fa fa-check ml-2 font-weight-bolder"></i></span></button>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Result</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Your result is</h3>
+                        <p class="lead" style="color: dodgerblue; font-weight: 500;">{{score}} points</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Exit</button>
+                        <button type="button" class="btn btn-primary" @click="" data-dismiss="modal">Redo</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -80,15 +107,19 @@
                 interactiveCaseName: '',
                 patientGender: '',
                 patientAge: 0,
+                patientCharacterPath: '/assets/male/healthy.png',
                 numberOfQuestions: 0,
                 time: 0,
                 questions: {},
+                studentAnswers: [],
                 startTime: '',
                 endTime: '',
 
                 index: 0, // index of current question
                 currentQuestion: {},
-                studentAnswer: ''
+                studentAnswer: '',
+
+                score: 0
             }
         },
         beforeMount() { // make the api call before mounting the component.
@@ -107,6 +138,7 @@
                     this.interactiveCaseName = response.data.interactiveCaseName;
                     this.patientGender = response.data.patientGender;
                     this.patientAge = response.data.patientAge;
+                    this.patientCharacterPath = response.data.patientCharacterPath;
                     this.numberOfQuestions = response.data.numberOfQuestions;
                     this.time = response.data.time;
                     let questionsString = response.data.questions;
@@ -149,6 +181,8 @@
                 setTimeout(() => {
                     loader.hide()
                 },500);
+
+                window.scroll(0, 0);
             },
             previous() {
                 // show a spinner while fetching data from the server
@@ -168,6 +202,19 @@
                 setTimeout(() => {
                     loader.hide()
                 },500);
+
+                window.scroll(0, 0);
+            },
+            finish: function () {
+                this.calculateScore();
+                window.scroll(0, 0);
+            },
+            end: function() {
+                this.calculateScore();
+                window.scroll(0, 0);
+            },
+            calculateScore() {
+                this.score = myRuleBased.getScore(this.studentAnswers, this.questions);
             }
         },
         watch: {
@@ -187,6 +234,10 @@
             },
             index() {
                 this.currentQuestion = this.questions[this.index];
+                this.studentAnswer = this.studentAnswers[this.index];
+            },
+            studentAnswer() {
+                this.studentAnswers[this.index] = this.studentAnswer;
             }
         }
     }

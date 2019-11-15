@@ -262,8 +262,7 @@
      *
      * @return {number} Rate of correctness of the student.
      */
-    export function main(studentAnswer, standardQuestion, relatedQuestion1, relatedQuestion2, standardKeywords, relatedKeywords1, relatedKeywords2) {
-        let rate = 0.0;
+    function main(studentAnswer, questions) {
         let questionsRate = [];
         let slamDankRates = {
             'rule1': 0.1628, // checkWhWord
@@ -279,11 +278,6 @@
         // every other related question.
 
         console.clear();
-
-        let questions = [];
-        if (standardQuestion !== '') questions.push(standardQuestion);
-        if (relatedQuestion1 !== '') questions.push(relatedQuestion1);
-        if (relatedQuestion2 !== '') questions.push(relatedQuestion2);
 
         for (let question of questions) {
             let questionRate=0.0;
@@ -316,42 +310,38 @@
                 questionRate += slamDankRates['rule5'];
             }
             // Rule #6
-            if (question === standardQuestion) {
-                //console.log('specialKeysSimilarity : ' + specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), standardKeywords));
-                if (specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), standardKeywords)) {
-                    questionRate += slamDankRates['rule6'];
-                }
-            } else if (question === relatedQuestion1) {
-                //console.log('specialKeysSimilarity : ' + specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), relatedKeywords1));
-                if (specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), relatedKeywords1)) {
-                    questionRate += slamDankRates['rule6'];
-                }
-            } else {
-                //console.log('specialKeysSimilarity : ' + specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), relatedKeywords2));
-                if (specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), relatedKeywords2)) {
-                    questionRate += slamDankRates['rule6'];
-                }
+            if (specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), standardKeywords)) {
+                questionRate += slamDankRates['rule6'];
             }
             // Rule #7
-            if (question === standardQuestion) {
-                //console.log('keywordsMatch : ' + KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), standardKeywords));
-                if (KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), standardKeywords)) {
-                    questionRate += slamDankRates['rule7'];
-                }
-            } else if (question === relatedQuestion1) {
-                //console.log('keywordsMatch : ' + KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), relatedKeywords1));
-                if (KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), relatedKeywords1)) {
-                    questionRate += slamDankRates['rule7'];
-                }
-            } else {
-                //console.log('keywordsMatch : ' + KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), relatedKeywords2));
-                if (KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), relatedKeywords1)) {
-                    questionRate += slamDankRates['rule7'];
-                }
+            if (KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), standardKeywords)) {
+                questionRate += slamDankRates['rule7'];
             }
 
             questionsRate.push(questionRate);
         }
 
         return Math.max(...questionsRate);
+    }
+
+    /**
+     * getScore function that will calculate the score of the student answers, [score from 0 to 100]
+     *
+     * @param {Array} studentAnswers - Student Answers.
+     * @param {Array} questions - Questions.
+     * @return {number} Score of the student.
+     */
+    export function getScore(studentAnswers, questions) {
+        let maxScore = 100;
+        let studentScore = 0;
+        let numberOfQuestions = studentAnswers.length;
+        let partialScore = Math.floor(maxScore / numberOfQuestions);
+        let rate=0;
+
+        for (let i = 0; i < numberOfQuestions; i++) {
+            rate = main(studentAnswers[i], questions[i]);
+            studentScore += partialScore * rate;
+        }
+
+        return studentScore;
     }

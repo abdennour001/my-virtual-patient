@@ -14,6 +14,45 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('/', function () {
+    return view('home');
+});
+Route::get('about', 'AboutController@index');
+
+// admin
+
+Route::get('admin/password/reset', function () {
+    return view('admin.passwords.email');
+});
+Route::get('admin/login', 'AdminController@loginView');
+Route::post('admin/admin_login', 'AdminController@admin_login');
+Route::get('admin', 'AdminController@index');
+Route::post('admin/logout', 'AdminController@logout');
+Route::get('admin/edit_view/{id}', 'AdminController@editView');
+Route::post('admin/edit', 'AdminController@edit');
+Route::get('admin/edit_password_view/{id}', 'AdminController@editPasswordView');
+Route::post('admin/edit_password', 'AdminController@editPassword');
+
+
+// admin/approvel |disapprovel
+
+Route::get('admin/approvel/{id}', 'AdminController@approvel');
+Route::get('admin/disapprovel/{id}', 'AdminController@disapprovel');
+
+
+// admin/enable | disable
+
+Route::get('admin/enable/{id}', 'AdminController@enable');
+Route::get('admin/disable/{id}', 'AdminController@disable');
+
+// admin/search_pedding
+
+Route::post('admin/search_pedding', 'AdminController@search_pedding');
+Route::post('admin/search_approved', 'AdminController@search_approved');
+
+/*****************************************************************************************/
+
 // interactive case
 Route::get('/interactive-case', 'InteractiveCaseController@index');
 
