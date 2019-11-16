@@ -7,11 +7,13 @@ use App\Instractor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
 
-    public function adminloginView()
+    public function loginView()
     {
         return view('admin.loginView');
     }
@@ -32,10 +34,7 @@ class AdminController extends Controller
 
     public function admin_login()
     {
-
-
         if(Auth::guard('admin')->attempt(['admin_email' => request('admin_email'), 'password' => request('password')])){
-
             return redirect('/admin');
         }
         else{

@@ -2,6 +2,8 @@
 
 @section('content')
 
+    @include('layouts.my-content')
+
 <div class="container" style="overflow: hidden">
     <div class="row text-center p-5">
         <div class="col-12">

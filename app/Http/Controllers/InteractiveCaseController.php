@@ -9,6 +9,7 @@ use App\OpenEnded;
 use App\Patient;
 use App\QuestionForPatient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InteractiveCaseController extends Controller
 {
@@ -22,8 +23,16 @@ class InteractiveCaseController extends Controller
 
     }
 
-    public function index() {
-        return view('interactive-case/interactive-case');
+    public function index($id) {
+        if(!Auth::guard('instractor')->user()){
+            return redirect('instractor/login');
+        }
+
+        $interactiveCase = InteractiveCase::find($id);
+        $patient = $interactiveCase->patient();
+        $answers = $interactiveCase->answersOfPatient();
+        
+        return view('interactive-case/interactive-case', ['interactive-case'=>$interactiveCase, 'virtual_character' => $patient->virtual_character]);
     }
 
     public function indexAll() {

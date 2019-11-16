@@ -18,9 +18,9 @@
                 <p class="m-0" style="font-size: 1rem">Hello! i am the virtual patient of this interactive case...</p>
             </div>
         </div>
-        <div class="p-5">
-            @include('layouts/interactive-case-question', ['numberOfQuestions' => 2])
-        </div>
+{{--        <div class="p-5">--}}
+{{--            @include('layouts/interactive-case-question', ['numberOfQuestions' => 2])--}}
+{{--        </div>--}}
     </div>
 
 @endsection
