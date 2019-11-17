@@ -2,6 +2,13 @@
 
 @section('content')
 
+    @include('layouts.my-content')
+
+
+    @if(Session::has('Data_successfully'))
+        <p class="text-center alert {{ Session::get('alert-class', 'alert-success') }}" style="border-radius: 0 !important;">{{ Session::get('Data_successfully') }}</p>
+    @endif
+
     <div class="container w-75 p-5">
         <div class="row text-center">
             <div class="col-12">
@@ -21,7 +28,7 @@
                 <div class="col-sm-8">
                     <select id="section" name="section" class="form-control form-control-md custom-select" required>
                         @foreach(\App\Section::all() as $section)
-                            <option value="{{ $section->id }}">Section {{ $section->section_number }}</option>
+                            <option value="{{ $section->sectionID }}">{{ $section->section_name }}</option>
                         @endforeach
                     </select>
                 </div>

@@ -10,6 +10,7 @@ use App\Patient;
 use App\QuestionForPatient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class InteractiveCaseController extends Controller
 {
@@ -28,11 +29,22 @@ class InteractiveCaseController extends Controller
             return redirect('instractor/login');
         }
 
-        $interactiveCase = InteractiveCase::find($id);
-        $patient = $interactiveCase->patient();
-        $answers = $interactiveCase->answersOfPatient();
-        
-        return view('interactive-case/interactive-case', ['interactive-case'=>$interactiveCase, 'virtual_character' => $patient->virtual_character]);
+        $interactiveCase = InteractiveCase::findOrFail($id);
+        $patient = $interactiveCase->patient;
+        $answers = $interactiveCase->answersOfPatient;
+        $questions = array();
+        $n = count($answers);
+
+        for ($i=0; $i<$n; $i++) {
+            $question['patientAnswer'] = $answers[$i]->answer_body;
+            $question['questions'] = $answers[$i]->questionsForPatient;
+            $questions[$i] = $question;
+        }
+
+        return view('interactive-case/interactive-case', ['interactive_case'=>$interactiveCase,
+            'virtual_character' => $patient->virtual_character,
+            'count' => $n,
+            'questions' => $questions]);
     }
 
     public function indexAll() {
@@ -47,8 +59,11 @@ class InteractiveCaseController extends Controller
         return view('interactive-case/create-interactive-case-2');
     }
 
-    public function indexDeleteInteractiveCase(Request $request) {
-        return view('interactive-case/delete-interactive-case');
+    public function indexDeleteInteractiveCase(Request $request, $id) {
+        $interactiveCase = InteractiveCase::findOrFail($id);
+        $interactiveCase->delete();
+        Session::flash('Data_successfully', 'Interactive case successfully deleted.');
+        return back();
     }
 
     public function indexEditInteractiveCase1(Request $request) {

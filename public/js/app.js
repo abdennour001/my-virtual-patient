@@ -14678,6 +14678,7 @@ var myRuleBased = __webpack_require__(/*! ../ScriptRuleBased */ "./resources/js/
     }); // make the api call.
 
     this.axios.get("/interactive-case/" + this.interactiveCaseId).then(function (response) {
+      console.log(response.data);
       _this.interactiveCaseName = response.data.interactiveCaseName;
       _this.patientGender = response.data.patientGender;
       _this.patientAge = response.data.patientAge;

@@ -2,6 +2,13 @@
 
 @section('content')
 
+    @include('layouts.my-content')
+
+    @if(Session::has('Data_successfully'))
+        <p class="text-center alert {{ Session::get('alert-class', 'alert-success') }}" style="border-radius: 0 !important;">{{ Session::get('Data_successfully') }}</p>
+    @endif
+
+
     <div class="container w-75 p-5">
         <div class="row text-center">
             <div class="col-12">
@@ -9,11 +16,12 @@
             </div>
         </div>
         <div class="row text-center p-5">
-            @for($session=1;$session<=3;$session++)
-                <div class="col-12 my-4">
-                    <a class="btn btn-primary" href="#">Start Session {{ $session }}</a>
+            @foreach($sessions = \App\Session::all() as $session)
+                <div class="col-4 my-4">
+                    <span class="lead p-0 m-0">{{ $session->session_name }}</span>
+                    <a class="btn align-baseline" style="color: red;" href="{{ url('/delete-session/'.$session->id) }}"><i class="fas fa-times"></i></a>
                 </div>
-            @endfor
+            @endforeach
         </div>
     </div>
 

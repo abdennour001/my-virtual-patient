@@ -135,6 +135,7 @@
             // make the api call.
             this.axios.get("/interactive-case/"+ this.interactiveCaseId)
                 .then(response => {
+                    console.log(response.data);
                     this.interactiveCaseName = response.data.interactiveCaseName;
                     this.patientGender = response.data.patientGender;
                     this.patientAge = response.data.patientAge;

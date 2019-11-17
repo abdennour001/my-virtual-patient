@@ -31,6 +31,13 @@ class SessionController extends Controller
         return view('session/start-session');
     }
 
+    public function delete($id) {
+        $session = Session::findOrFail($id);
+        $session->delete();
+        \Illuminate\Support\Facades\Session::flash('Data_successfully', 'Session successfully deleted.');
+        return back();
+    }
+
     public function store(Request $request) {
         $name = $request['sessionName'];
         $sectionID = $request['section'];
@@ -43,6 +50,7 @@ class SessionController extends Controller
         $session->interactiveCase()->associate($interactiveCase);
         $session->section()->associate($section);
         $session->save();
+        \Illuminate\Support\Facades\Session::flash('Data_successfully', 'You successfully started a session named <'.$name.'>.');
         return back();
     }
 

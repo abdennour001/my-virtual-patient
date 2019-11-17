@@ -9,14 +9,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Admin</title>
-  
-  
-  
+
+
+
      <!-- Styles -->
      <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <style>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -66,11 +64,11 @@
 
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-            
+
                 <a class="navbar-brand" href="{{ url('/') }}">
-                
+
                 My Virtual Patient
-                <!--  
+                <!--
                 <img src="C:\Users\LENOVO\Desktop\MVP\logo.png" >
                 -->
 
@@ -118,12 +116,12 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header">
-                    Sidebar 
+                    Sidebar
                 </div>
                 <div class="card-body">
                 <ul class="nav" role="tablist" style="display: table;">
                         <li role="presentation" style="padding:5px;">
-                        <?php 
+                        <?php
                             $id = Auth::guard('admin')->user()->adminID;
                         ?>
                             <a href="{{ url('admin/edit_view/'.$id) }}">
@@ -143,23 +141,23 @@
                                 Manage instructors
                             </a>
                         </li>
-                        
+
                     </ul>
                 </div>
             </div>
         </div>
 
             <div class="col-md-9">
-            
+
                 <div class="card">
-                
+
 
                     <div class="card-header">Admin</div>
-  
+
 
                     <div class="card-body">
 
-                  
+
 
                     <div class="row">
 
@@ -168,10 +166,10 @@
 
 
                     <div class="col-md-6">
-               
+
                         </div>
 
-                       
+
                        </div>
 
                        <table class="table table-bordered success" style="margin-top:10px;">
@@ -200,14 +198,14 @@
 
                             </thead>
                         </table>
-                       
+
 
 
                     </div>
 
 
                     <div class="card-body">
-                       
+
                        <div class="row">
 
 
@@ -215,10 +213,10 @@
 
 
                         <div class="col-md-6">
-       
+
                             </div>
 
-                        
+
                         </div>
 
                        <table class="table table-bordered success" style="margin-top:10px;">
@@ -253,7 +251,7 @@
 
                             </thead>
                         </table>
-                       
+
 
 
 
@@ -271,4 +269,3 @@
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
- 

@@ -8,10 +8,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Instractor</title>
+    <title>Student</title>
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- <style> -->
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -81,38 +84,30 @@
                         </a></li>
                 </ul>
 
-
-
-
-
-
                 <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav ml-auto">
-                    <!-- Authentication Links -->
-                    @if(!Auth::guard('instractor')->user())
+                <ul class="nav navbar-nav navbar-right">
+
+                    @if(!Auth::guard('student')->user())
                         <li><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
                         <li><a class="nav-link" href="{{ url('/register') }}">Register</a></li>
                     @else
-                        <li><a class="nav-link" href="{{ url('instractor/logout') }}"
+                        <li><a class="nav-link" href="{{ url('student/logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
                                 Logout
                             </a></li>
 
-                        <form id="logout-form" action="{{ url('instractor/logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ url('student/logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
                     @endif
+
                 </ul>
+
+
             </div>
         </div>
     </nav>
-
-    @if(Session::has('Data_successfully'))
-        <div style="text-align: center;">
-            <p class="alert {{ Session::get('alert-class', 'alert-success') }}" style="border-radius: 0 !important;">{{ Session::get('Data_successfully') }}</p><br>
-        </div>
-    @endif
 
     <main class="py-4">
         <div class="container">
@@ -124,82 +119,62 @@
                         </div>
 
                         <div class="card-body">
+
                             <ul class="nav" role="tablist" style="display: table;">
                                 <li role="presentation" style="padding:5px;">
                                     <?php
-                                    $id = Auth::guard('instractor')->user()->instractorID;
+                                    $id = Auth::guard('student')->user()->studentID;
                                     ?>
-                                    <a href="{{ url('instractor/edit_view/'.$id) }}">
+                                    <a href="{{ url('student/edit_view/'.$id) }}">
                                         Edit personal information
                                     </a>
                                 </li>
                                 <li role="presentation" style="padding:5px;">
-                                    <a href="{{ url('instractor/edit_password_view/'.$id) }}">
+                                    <a href="{{ url('student/edit_password_view/'.$id) }}">
                                         Change password
                                     </a>
                                 </li>
+
                                 <hr />
+
                                 <li role="presentation" style="padding:5px;">
-                                    <a href="{{ url('instractor/create_sections/'.$id) }}">
-                                        Create Section
-                                    </a>
+                                <!--
+                            <a href="{{ url('/student') }}">
+                                My sections
+                            </a>
+
+                            -->
+                                    My sections
                                 </li>
-                                <hr>
-                                <li role="presentation" style="padding:5px;">
-                                    My Section
-                                </li>
-                                @if(count($my_section_data) > 0)
-                                    @foreach($my_section_data as $data)
-                                        <li role="presentation" style="padding:5px;margin-left:10px;color: #979797;">
-                                            <a href="{{ url('instractor/section/'.$data->sectionID) }}">
-                                                {{$data->section_name}}
-                                            </a>
-                                        </li>
+                                @if(count($data) > 0)
+                                    @foreach($data as $d)
+                                        @foreach($d as $s)
+                                            <li role="presentation" style="padding:5px;margin-left:10px;color: #979797;">
+                                                {{$s->section_name}}
+                                            </li>
+                                        @endforeach
                                     @endforeach
                                 @else
                                     <li role="presentation" style="padding:5px;margin-left:10px;color: #979797;">
-                                        No data
+                                        No section
                                     </li>
                                 @endif
-                                <hr />
-                                <li role="presentation" style="padding:5px;">
-                                    Interactive case
-                                </li>
-                                <li role="presentation" style="padding:5px;">
-                                    <a href="{{ url('/create-interactive-case-1') }}">
-                                        Create interactive case
-                                    </a>
-                                </li>
-                                <li role="presentation" style="padding:5px;">
-                                    <a href="{{ url('/my-interactive-cases') }}">
-                                        My interactive cases
-                                    </a>
-                                </li>
                                 <hr>
                                 <li role="presentation" style="padding:5px;">
                                     Session
                                 </li>
                                 <li role="presentation" style="padding:5px;">
-                                    <a href="{{ url('/start-session') }}">
-                                        Start session
-                                    </a>
-                                </li>
-                                <li role="presentation" style="padding:5px;">
-                                    <a href="{{ url('/live-sessions') }}">
-                                        My live sessions
+                                    <a href="{{ url('/student/live-sessions') }}">
+                                        Join session
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-9">
-
-                    @yield('instructor-content')
-
+                    @yield('student-content')
                 </div>
-
             </div>
         </div>
     </main>

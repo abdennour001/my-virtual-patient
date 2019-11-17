@@ -96,6 +96,7 @@ Route::get('student/edit_view/{id}', 'StudentController@editView');
 Route::post('student/edit', 'StudentController@edit');
 Route::get('student/edit_password_view/{id}', 'StudentController@editPasswordView');
 Route::post('student/edit_password', 'StudentController@editPassword');
+Route::get('/student/live-sessions', 'StudentController@showLiveSessions');
 
 Route::get('student/section', 'StudentController@get_my_section');
 
@@ -103,7 +104,7 @@ Route::get('student/section', 'StudentController@get_my_section');
 /*****************************************************************************************/
 
 // interactive case
-Route::get('/interactive-case/{id}', 'InteractiveCaseController@index');
+Route::get('/instractor/interactive-case/{id}', 'InteractiveCaseController@index');
 
 // my interactive cases
 Route::get('/my-interactive-cases', 'InteractiveCaseController@indexAll');
@@ -113,7 +114,7 @@ Route::get('/create-interactive-case-1', 'InteractiveCaseController@indexCreateI
 Route::get('/create-interactive-case-2', 'InteractiveCaseController@indexCreateInteractiveCase2');
 
 // delete interactive case routes
-Route::get('/delete-interactive-case', 'InteractiveCaseController@indexDeleteInteractiveCase');
+Route::get('/delete-interactive-case/{id}', 'InteractiveCaseController@indexDeleteInteractiveCase');
 
 // edit interactive case
 Route::get('/edit-interactive-case-1', 'InteractiveCaseController@indexEditInteractiveCase1');
@@ -128,6 +129,7 @@ Route::get('/session/{sessionID}', 'SessionController@show');
 Route::get('/live-sessions', 'SessionController@indexLiveSessions');
 
 Route::get('/start-session', 'SessionController@indexStartSession');
+Route::get('/delete-session/{id}', 'SessionController@delete');
 
 // create a new session
 Route::post('/start-session/add', 'SessionController@store');
