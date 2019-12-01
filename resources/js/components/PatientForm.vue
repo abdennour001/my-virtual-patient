@@ -36,7 +36,7 @@
                             style="color: dodgerblue;">Reset <i class="fas fa-times"></i></a>
                 </div>
                 <div id="dropzone" class="col-10 offset-1 dropzone-out" style="z-index: -999;" ref="patientZone">
-                    <img id="virtualPatient" ref="virtualPatient" :src="virtualCharacter" alt="Please set an age to continue..." class="w-25 m-2"/>
+                    <img id="virtualPatient" ref="virtualPatient" :src="virtualCharacter" alt="Please set an age to continue or check what is wrong..." class="w-25 m-2"/>
                 </div>
                 <div class="col-12 mt-4">
                     <div class="container">
@@ -151,7 +151,7 @@
                         filename: "pregnant",
                         gender: "",
                         age: "",
-                        enabled: false,
+                        enabled: true,
                     },
                     {
                         id: 6,
@@ -160,7 +160,7 @@
                         filename: "with-baby",
                         gender: "",
                         age: "",
-                        enabled: false,
+                        enabled: true,
                     },
                     {
                         id: 7,
@@ -388,13 +388,19 @@
                     this.virtualCharacter = '';
                 } else if (this.age <= 4 && this.age >= 0) { // a baby
                     this.virtualCharacter = 'assets/baby/healthy.png';
+                    this.injuries[5].enabled = false;
+                    this.injuries[6].enabled = false;
                 } else if (this.age > 4 && this.age <= 17) { // a young
                     if (this.gender === "male") {
                         this.virtualCharacter = 'assets/boy/healthy.png';
-                        console.log("young male")
+                        console.log("young male");
+                        this.injuries[5].enabled = false;
+                        this.injuries[6].enabled = false;
                     } else {
                         this.virtualCharacter = 'assets/girl/healthy.png';
-                        console.log("young female")
+                        console.log("young female");
+                        this.injuries[5].enabled = false;
+                        this.injuries[6].enabled = false;
                     }
                 } else if (this.age > 17 && this.age <= 40) { // an adult
                     if (this.gender === "male") {
@@ -402,15 +408,21 @@
                         console.log("adult male")
                     } else {
                         this.virtualCharacter = 'assets/female/healthy.png';
-                        console.log("adult female")
+                        console.log("adult female");
+                        this.injuries[5].enabled = true;
+                        this.injuries[6].enabled = true;
                     }
                 } else if (this.age > 40 && this.age <= 100) { // an old
                     if (this.gender === "male") {
                         this.virtualCharacter = 'assets/old-male/healthy.png';
-                        console.log("old male")
+                        console.log("old male");
+                        this.injuries[5].enabled = false;
+                        this.injuries[6].enabled = false;
                     } else {
                         this.virtualCharacter = 'assets/old-female/healthy.png';
-                        console.log("old female")
+                        console.log("old female");
+                        this.injuries[5].enabled = false;
+                        this.injuries[6].enabled = false;
                     }
                 }
 

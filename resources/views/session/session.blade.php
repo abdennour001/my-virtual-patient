@@ -4,7 +4,7 @@
 
     @include('layouts.my-content-student')
 
-    <div>
+    <div class="m-3">
         <session session-id="{{ $sessionID }}" session-name="{{ $sessionName }}" interactive-case-id="{{ $interactiveCaseID }}"></session>
     </div>
 

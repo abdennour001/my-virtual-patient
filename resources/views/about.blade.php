@@ -6,7 +6,7 @@
 
         <title>Home</title>
 
-        
+
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -22,7 +22,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 
-        
+
         <!-- Styles -->
         <style>
             html, body {
@@ -58,7 +58,7 @@
                 right: 100px;
                 top: 18px;
             }
-            
+
 
             .content {
                 text-align: center;
@@ -124,11 +124,11 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="{{ url('about') }}">About</a></li>
-               
 
-               
+
+
             </ul>
-            
+
 
              <ul class="nav navbar-nav navbar-right">
 
@@ -157,7 +157,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 Register
                 <span class="caret"></span></a>
-                
+
                 <ul class="dropdown-menu">
                 @if(!Auth::guard('instractor')->user())
                     <li><a href="{{ url('instractor/register') }}">Instractor</a></li>
@@ -166,7 +166,7 @@
                     <li><a href="{{ url('student/register') }}">Students</a></li>
                 @endif
                 </ul>
-                
+
                 </li>
             </ul>
 
@@ -184,18 +184,18 @@
                                  document.getElementById('logout-form').submit();">
                     Logout
                 </a></li>
-                
+
 
                 <form id="logout-form" action="{{ url('admin/logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-                  
+
                 @endif
 
                 @if(Auth::guard('instractor')->user())
                 <li><a href="{{ url('instractor') }}">{{Auth::guard('instractor')->user()->instractorName}}</a></li>
 
-                <li style="margin-top: 13px;"><span>|</span></li> 
+                <li style="margin-top: 13px;"><span>|</span></li>
 
                 <li><a style="color: red" class="dropdown-item" href="{{ url('instractor/logout') }}"
                    onclick="event.preventDefault();
@@ -206,13 +206,13 @@
                 <form id="logout-form" action="{{ url('instractor/logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-                  
+
                 @endif
 
                 @if(Auth::guard('student')->user())
                 <li><a href="{{ url('student') }}">{{Auth::guard('student')->user()->studentName}}</a></li>
 
-                <li style="margin-top: 13px;"><span>|</span></li>  
+                <li style="margin-top: 13px;"><span>|</span></li>
 
                 <li><a style="color: red" class="dropdown-item" href="{{ url('student/logout') }}"
                    onclick="event.preventDefault();
@@ -223,7 +223,7 @@
                 <form id="logout-form" action="{{ url('student/logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-                 
+
                 @endif
 
 
@@ -238,20 +238,20 @@
 
 
 
-        
 
 
 
-        
+
+
         <div class="flex-center position-ref full-height">
-        
-        
-            <div class="content">
-                <div class="title m-b-md">
-                    About Page
-                </div>
 
-               
+
+            <div class="content">
+                <img src="{{ asset("assets/logo-01.png") }}" style="width: 15%" />
+
+                <div class="title m-b-md">
+                    My Virtual Patient 1.0
+                </div>
             </div>
         </div>
     </body>

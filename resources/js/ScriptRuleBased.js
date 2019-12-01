@@ -228,8 +228,10 @@
     function fetchSynonymsApi(word) {
         let api_url="https://words.bighugelabs.com/api/2/2d33853e07cdc56d8a7519f13663507a/"+word+"/json";
         let syn = [];
+
+
         // The jQuery Ajax Asynchronous request to ask for the synonyms
-        $.getJSON( api_url ).done( function(data) {
+        $.getJSON( api_url , {  dataType: "script",}).done( function(data) {
             $.each(data, function(i,item){
                 syn = item.syn;
             });
@@ -277,44 +279,43 @@
         // we will apply the rules one to one between the student question  and
         // every other related question.
 
-        console.clear();
-
         for (let question of questions) {
+
             let questionRate=0.0;
 
             // Rule #1
             //console.log('checkWhWord : ' + checkWhWord(studentAnswer, question));
-            if (checkWhWord(studentAnswer, question)) questionRate += slamDankRates['rule1'];
+            if (checkWhWord(studentAnswer, question['question_body'])) questionRate += slamDankRates['rule1'];
             // Rule #2
             //console.log('checkBeginning : ' + checkBeginning(studentAnswer, question));
-            if (checkBeginning(studentAnswer, question)[0]) {
+            if (checkBeginning(studentAnswer, question['question_body'])[0]) {
                 questionRate += slamDankRates['rule2'];
             }
             // Rule #3
             //console.log('wordMatch : ' + wordMatch(studentAnswer, question));
-            let n = wordMatch(studentAnswer, question);
+            let n = wordMatch(studentAnswer, question['question_body']);
             if (n > 0) {
-                let l = Math.min(studentAnswer.length, question.length);
+                //let l = Math.min(studentAnswer.length, question.length);
                 questionRate += slamDankRates['rule3'];
             }
             // Rule #4
             //console.log('wordMatchSynonyms : ' + wordMatchSynonyms(studentAnswer, question));
-            let o = wordMatchSynonyms(studentAnswer, question);
+            let o = wordMatchSynonyms(studentAnswer, question['question_body']);
             if (o > 0) {
-                let l = Math.min(studentAnswer.length, question.length);
+                //let l = Math.min(studentAnswer.length, question.length);
                 questionRate += slamDankRates['rule4'];
             }
             // Rule #5
             //console.log('checkQuestionType : ' + checkQuestionType(studentAnswer, question));
-            if (checkQuestionType(studentAnswer, question)) {
+            if (checkQuestionType(studentAnswer, question['question_body'])) {
                 questionRate += slamDankRates['rule5'];
             }
             // Rule #6
-            if (specialKeysSimilarity(studentAnswer, question, studentAnswer.split(/[\s!.;,?]+/), standardKeywords)) {
+            if (specialKeysSimilarity(studentAnswer, question['question_body'], studentAnswer.split(/[\s!.;,?]+/), question['keywords'].map(o => o.keyword_body))) {
                 questionRate += slamDankRates['rule6'];
             }
             // Rule #7
-            if (KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), standardKeywords)) {
+            if (KeywordsMatch(studentAnswer.split(/[\s!.;,?]+/), question['keywords'].map(o => o.keyword_body))) {
                 questionRate += slamDankRates['rule7'];
             }
 
@@ -332,16 +333,24 @@
      * @return {number} Score of the student.
      */
     export function getScore(studentAnswers, questions) {
+
+        // Configure ajax to wait for the answer (not async)
+        $.ajaxSetup({
+            async: false
+        });
+
         let maxScore = 100;
         let studentScore = 0;
         let numberOfQuestions = studentAnswers.length;
         let partialScore = Math.floor(maxScore / numberOfQuestions);
         let rate=0;
+        let questionsArray = [];
 
         for (let i = 0; i < numberOfQuestions; i++) {
-            rate = main(studentAnswers[i], questions[i]);
+            questionsArray[i] = [...questions[i]['relatedQuestions'], questions[i]['standardQuestion']];
+            rate = main(studentAnswers[i], questionsArray[i]);
             studentScore += partialScore * rate;
         }
 
-        return studentScore;
+        return Math.floor(studentScore);
     }

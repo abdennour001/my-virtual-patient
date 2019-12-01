@@ -27,30 +27,30 @@
 
                     </vue-countdown-timer>
                     <i class="fas fa-list ml-4"></i>
-                    <span class="ml-2">{{ index+1 }}/{{ numberOfQuestions }}</span>
+                    <span class="ml-2">{{ index < numberOfQuestions-1 ? index+2 : index+1 }}/{{ numberOfQuestions }}</span>
                     <i class="fas fa-info ml-4"></i>
                     <span class="ml-2">{{ interactiveCaseName }}</span>
                 </span>
-                <button type="button" data-toggle="modal" data-target="#exampleModal2" @click="end" class="btn btn-danger" href="#"><i class="fas fa-times mr-2"></i>End</button>
+                <button type="button" data-toggle="modal" data-target="#exampleModal3" class="btn btn-danger" href="#"><i class="fas fa-times mr-2"></i>End</button>
             </div>
             <div class="d-flex justify-content-center my-4">
                 <img :src="'/' + patientCharacterPath" alt="Patient image goes here.." style="width: 30%;"/>
             </div>
             <div class="row text-center">
                 <div class="col-12 jumbotron py-2" style="padding: 0;width: 100%">
-                    <p class="m-0" style="font-size: 1rem">{{ currentQuestion['patientAnswer'] }}</p>
+                    <p class="m-0" style="font-size: 1rem">{{ index !== -1 ? currentQuestion['patientAnswer'] : patientIntroduction }}</p>
                 </div>
             </div>
             <hr>
-            <div class="d-flex flex-column justify-content-center">
-                <div class="form-group p-2" style="font-size: 1.3rem">
+            <div v-if="index < numberOfQuestions-1" class="d-flex flex-column justify-content-center">
+                <div class="form-group p-2" style="font-size: 1.2rem">
                     <label for="exampleFormControlTextarea1">Answer</label>
                     <textarea v-model="studentAnswer" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Write the answer.."></textarea>
                 </div>
             </div>
             <div class="d-flex flex-row justify-content-between">
-                <button style="width: 15%;" @click="previous" :disabled="index === 0" class="btn btn-dark"><i class="fa fa-angle-left mr-2 font-weight-bolder"></i>Previous</button>
-                <button style="width: 15%;" @click="next" :hidden="index >= numberOfQuestions-1" class="btn btn-dark">Next <span v-if="index < numberOfQuestions-1"><i class="fa fa-angle-right ml-2 font-weight-bolder"></i></span></button>
+                <button style="width: 15%;" @click="previous" :disabled="index === -1" class="btn btn-dark"><i class="fa fa-angle-left mr-2 font-weight-bolder"></i>Previous</button>
+                <button style="width: 15%;" @click="next" :hidden="index === numberOfQuestions-1" class="btn btn-dark">Next <span v-if="index < numberOfQuestions-1"><i class="fa fa-angle-right ml-2 font-weight-bolder"></i></span></button>
                 <button
                         type="button"
                         data-toggle="modal" data-target="#exampleModal2"
@@ -75,8 +75,28 @@
                         <p class="lead" style="color: dodgerblue; font-weight: 500;">{{score}} points</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Exit</button>
-                        <button type="button" class="btn btn-primary" @click="" data-dismiss="modal">Redo</button>
+                        <button type="button" class="btn btn-secondary" @click="end" data-dismiss="modal">Exit</button>
+                        <button type="button" class="btn btn-primary" onclick="window.location.reload()" data-dismiss="modal">Redo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel2">Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="lead">Are you sure that you want to end the test ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" @click="end" data-dismiss="modal">Yes</button>
                     </div>
                 </div>
             </div>
@@ -115,9 +135,11 @@
                 startTime: '',
                 endTime: '',
 
-                index: 0, // index of current question
+                index: -1, // index of current question
                 currentQuestion: {},
                 studentAnswer: '',
+
+                patientIntroduction: '', // first introduction of the patient
 
                 score: 0
             }
@@ -135,7 +157,6 @@
             // make the api call.
             this.axios.get("/interactive-case/"+ this.interactiveCaseId)
                 .then(response => {
-                    console.log(response.data);
                     this.interactiveCaseName = response.data.interactiveCaseName;
                     this.patientGender = response.data.patientGender;
                     this.patientAge = response.data.patientAge;
@@ -144,6 +165,8 @@
                     this.time = response.data.time;
                     let questionsString = response.data.questions;
                     this.questions = JSON.parse(questionsString);
+
+                    this.patientIntroduction = `Hello! my age is ${this.patientAge} and i have a problem ${this.patientCharacterPath.split('/')[2].split('.')[0]}, can you help me ?`;
                     this.axiosResponse = true;
                 })
                 .catch(e => {
@@ -174,6 +197,7 @@
                     zIndex: 999,
                     loader: 'spinner',
                 });
+
                 if (this.index < (this.numberOfQuestions-1)) {
                     this.index++;
                 }
@@ -195,7 +219,7 @@
                     loader: 'spinner',
                 });
 
-                if (this.index > 0) {
+                if (this.index > -1) {
                     this.index--;
                 }
 
@@ -211,8 +235,7 @@
                 window.scroll(0, 0);
             },
             end: function() {
-                this.calculateScore();
-                window.scroll(0, 0);
+                window.location.href = "http://127.0.0.1:8000/student/live-sessions";
             },
             calculateScore() {
                 this.score = myRuleBased.getScore(this.studentAnswers, this.questions);
@@ -235,15 +258,27 @@
             },
             index() {
                 this.currentQuestion = this.questions[this.index];
-                this.studentAnswer = this.studentAnswers[this.index];
+                if (this.index < this.numberOfQuestions - 1) {
+                    this.studentAnswer = this.studentAnswers[this.index+1];
+                }
             },
             studentAnswer() {
-                this.studentAnswers[this.index] = this.studentAnswer;
+                this.studentAnswers[this.index+1] = this.studentAnswer;
             }
         }
     }
 </script>
 
 <style scoped>
+
+    .container {
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        transition: .5s ease;
+        border-radius: 20px;
+    }
+
+    .container:hover {
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    }
 
 </style>
